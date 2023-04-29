@@ -1,0 +1,35 @@
+$primary-color: steelblue;
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: $primary-color;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Montserrat';
+}
+
+.main {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    > div {
+        width: 100%;
+        height: 100vh;
+        border-top: 1px solid #ddd;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.canvas-wrapper {
+    z-index: 1;
+    position: fixed;
+    inset: 0 0 0 0;
+}
