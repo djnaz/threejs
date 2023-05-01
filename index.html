@@ -2,15 +2,36 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>ThreeJS</title>
+    <script type="text/javascript">
+      (function(doc) {
+      
+        var addEvent = 'addEventListener',
+            type = 'gesturestart',
+            qsa = 'querySelectorAll',
+            scales = [1, 1],
+            meta = qsa in doc ? doc[qsa]('meta[name=viewport]') : [];
+      
+        function fix() {
+          meta.content = 'width=device-width,minimum-scale=' + scales[0] + ',maximum-scale=' + scales[1];
+          doc.removeEventListener(type, fix, true);
+        }
+      
+        if ((meta = meta[meta.length - 1]) && addEvent in doc) {
+          fix();
+          scales = [.25, 1.6];
+          doc[addEvent](type, fix, true);
+        }
+      
+      }(document));
+      </script>
   </head>
   <body>
     <div class="canvas-wrapper"></div>
     <section class="main">
       <div class="intro">intro</div>
-      <div class="block1">block 1</div>
-      <div class="block2">block 2</div>
+      <div class="block">block</div>
     </section>
     <script type="module" src="/main.js"></script>
   </body>

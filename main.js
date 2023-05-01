@@ -5,6 +5,10 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.normalizeScroll(true);
+ScrollTrigger.config({
+  ignoreMobileResize: true
+});
 
 const PI = Math.PI;
 
@@ -14,8 +18,8 @@ let size = {width: 0, height: 0};
 
 const scene = new THREE.Scene();
 
-const axesHelper = new THREE.AxesHelper( 5 );
-scene.add( axesHelper );
+// const axesHelper = new THREE.AxesHelper( 5 );
+// scene.add( axesHelper );
 
 // setup canvas 
 const renderer = new THREE.WebGLRenderer({antialias: true});
@@ -28,8 +32,9 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMapSoft = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-const container = document.querySelector('.canvas-wrapper');
-container.appendChild(renderer.domElement);
+// const container = document.querySelector('.canvas-wrapper');
+// container.appendChild(renderer.domElement);
+document.body.appendChild( renderer.domElement );
 
 // setup camera
 const fov = 10;
@@ -71,12 +76,17 @@ scene.add(ground);
 
 // on Resize
 const onResize = () => {
-  size.width = container.clientWidth;
-  size.height = container.clientHeight;
+  // size.width = container.clientWidth;
+  // size.height = container.clientHeight;
+  size.width = window.innerWidth;
+  size.height = window.innerHeight;
+  console.log(size.height);
   camera.aspect = size.width / size.height;
   camera.updateProjectionMatrix();
   renderer.setSize(size.width, size.height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  ScrollTrigger.refresh();
+  console.log(window.devicePixelRatio);
 }
 
 window.addEventListener('resize', onResize);
@@ -106,7 +116,7 @@ tick();
 // load Golf Ball Model
 const loadGolfBall = new GLTFLoader();
 
-loadGolfBall.load('./golfball.gltf', (gltfScene) => {
+loadGolfBall.load('./golfball3.gltf', (gltfScene) => {
   const golfball = gltfScene.scene;
   const roll = PI*2;
   console.log(golfball);
@@ -116,7 +126,7 @@ loadGolfBall.load('./golfball.gltf', (gltfScene) => {
       child.castShadow = true;
     }
   });
-  golfball.position.set(0,1,8);
+  golfball.position.set(0,1,6);
   // golfball.rotation.set(-PI*2.48,-5.75,0);
   scene.add(golfball);
 
@@ -134,16 +144,19 @@ loadGolfBall.load('./golfball.gltf', (gltfScene) => {
         ease: 'power2.inOut'
       },
       scrollTrigger: {
-        trigger: '.main',
-        start: 'top top',
+        trigger: '.intro',
+        start: 'bottom top',
         end: 'bottom bottom',
-        scrub: 10,
-        snap: 1,
-        pin: true
+        scrub: 3,
+        snap: "labelsDirectional",
+        markers: true,
+        invalidateOnRefresh: true
       }
     })
 
     tl
+      .addLabel("startLabel", 0)
+      .addLabel("endLabel", 1)
       .to(golfball.position, {z: -0}, section)
       .to(golfball.rotation, {x: -PI*4.5}, section)
   }
