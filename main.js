@@ -29,7 +29,7 @@ const renderer = new THREE.WebGLRenderer({antialias: true});
 
 renderer.useLegacyLights = true;
 renderer.outputEcoding = THREE.sRGBEncoding;
-renderer.toneMapping = THREE.ReinhardToneMapping;
+renderer.toneMapping = THREE.CineonToneMapping;
 renderer.toneMappingExposure = 5;
 renderer.shadowMap.enabled = true;
 renderer.shadowMapSoft = true;
@@ -43,36 +43,42 @@ document.body.appendChild( renderer.domElement );
 const fov = 10;
 const aspect = size.width / size.height;  // the canvas default
 const near = 0.1;
-const far = 100;
+const far = 200;
 const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-camera.position.set(0,50,0);
+camera.position.set(0,100,0);
 let cameraTarget = new THREE.Vector3(0, 1, 0);
 scene.add(camera);
 
 // add lights
 const color = 0xFFFFFF;
-const intensity = 1;
+const intensity = .4;
 const directionalLight = new THREE.DirectionalLight(color, intensity/3);
 directionalLight.castShadow = true;
+const d = 10;
+directionalLight.shadow.camera.left = - d;
+directionalLight.shadow.camera.right = d;
+directionalLight.shadow.camera.top = d;
+directionalLight.shadow.camera.bottom = - d;
 directionalLight.shadow.camera.far = 10000;
 directionalLight.shadow.mapSize.set(512, 512);
 directionalLight.shadow.normalBias = 0.05;
 directionalLight.position.set(2000, 8000, -2000);
 scene.add(directionalLight);
 
-const colorSky = '#c2c2ee';
-const colorGround = '#337233';
-const hemisphericalLight = new THREE.HemisphereLight(colorSky, colorGround, intensity/8);
-scene.add(hemisphericalLight);
+// Camera Helper
+// scene.add( new THREE.CameraHelper( directionalLight.shadow.camera ) );
 
-const ambientIntensity = 0.01;
+const ambientIntensity = 0.05;
 const ambientLight = new THREE.AmbientLight( color, ambientIntensity ); // soft white light
 scene.add(ambientLight);
 
 // add ground
-const plane = new THREE.PlaneGeometry(100, 100);
-const groundMaterial = new THREE.MeshStandardMaterial({color: colorGround});
-const ground = new THREE.Mesh(plane, groundMaterial);
+const plane = new THREE.PlaneGeometry(30, 30);
+//const groundMaterial = new THREE.MeshStandardMaterial({color: colorGround});
+const grassMap = new THREE.TextureLoader().load( './grass.webp' );
+const grassMaterial = new THREE.MeshStandardMaterial( { map: grassMap } );
+grassMaterial.map.encoding = THREE.sRGBEncoding;
+const ground = new THREE.Mesh(plane, grassMaterial);
 ground.receiveShadow = true;
 ground.rotateX(-PI * 0.5);
 scene.add(ground);
@@ -114,7 +120,8 @@ loadGolfBall.load('./golfball3.gltf', (gltfScene) => {
       child.castShadow = true;
     }
   });
-  golfball.position.set(0,1,6);
+  golfball.position.set(0,1,10);
+  ground.position.set(0,0,-2);
   // golfball.rotation.set(-PI*2.48,-5.75,0);
   scene.add(golfball);
 
@@ -124,14 +131,14 @@ loadGolfBall.load('./golfball3.gltf', (gltfScene) => {
     let section = 0;
     const tl = gsap.timeline({
       default: {
-        duration: 1,
+        duration: 2,
         ease: 'power2.inOut'
       },
       scrollTrigger: {
         trigger: '.intro',
         start: 'start -4px',
         end: 'bottom bottom',
-        scrub: 3,
+        scrub: 8,
 
         markers: true,
         invalidateOnRefresh: true
