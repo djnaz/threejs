@@ -4,6 +4,9 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+// prevents the last scroll location on the page to be restored
+history.scrollRestoration = 'manual';
+
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.normalizeScroll(true);
 ScrollTrigger.config({
@@ -80,13 +83,11 @@ const onResize = () => {
   // size.height = container.clientHeight;
   size.width = window.innerWidth;
   size.height = window.innerHeight;
-  console.log(size.height);
   camera.aspect = size.width / size.height;
   camera.updateProjectionMatrix();
   renderer.setSize(size.width, size.height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   ScrollTrigger.refresh();
-  console.log(window.devicePixelRatio);
 }
 
 window.addEventListener('resize', onResize);
@@ -99,19 +100,6 @@ const tick = () => {
 }
 
 tick();
-
-
-// set canvas drawingbuffer size to match html canvas
-// function resizeRendererToDisplaySize(renderer) {
-//   const canvas = renderer.domElement;
-//   const width = canvas.clientWidth;
-//   const height = canvas.clientHeight;
-//   const needResize = canvas.width !== width || canvas.height !== height;
-//   if (needResize) {
-//     renderer.setSize(width, height, false);
-//   }
-//   return needResize;
-// }
 
 // load Golf Ball Model
 const loadGolfBall = new GLTFLoader();
@@ -131,10 +119,6 @@ loadGolfBall.load('./golfball3.gltf', (gltfScene) => {
   scene.add(golfball);
 
   //golfball.rotation.x = roll*1; // rotate around x axis 4 times
-  
-  const setupAnimation = () => {
-
-  }
 
   const golfballAnimation = () => {
     let section = 0;
@@ -145,10 +129,10 @@ loadGolfBall.load('./golfball3.gltf', (gltfScene) => {
       },
       scrollTrigger: {
         trigger: '.intro',
-        start: 'bottom top',
+        start: 'start -4px',
         end: 'bottom bottom',
         scrub: 3,
-        snap: "labelsDirectional",
+
         markers: true,
         invalidateOnRefresh: true
       }

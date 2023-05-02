@@ -87,14 +87,6 @@ const onResize = () => {
 window.addEventListener('resize', onResize);
 onResize();
 
-const tick = () => {
-  camera.lookAt(cameraTarget);
-  renderer.render(scene, camera);
-  window.requestAnimationFrame(() => tick());
-}
-
-tick();
-
 
 // set canvas drawingbuffer size to match html canvas
 // function resizeRendererToDisplaySize(renderer) {
@@ -160,3 +152,11 @@ loadGolfBall.load('./golfball.gltf', (gltfScene) => {
 })
 
 renderer.render(scene, camera);
+
+const tick = () => {
+  camera.lookAt(golfball);
+  renderer.render(scene, camera);
+  window.requestAnimationFrame(() => tick());
+}
+
+tick();
