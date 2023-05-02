@@ -80,6 +80,7 @@ const grassMaterial = new THREE.MeshStandardMaterial( { map: grassMap } );
 grassMaterial.map.encoding = THREE.sRGBEncoding;
 const ground = new THREE.Mesh(plane, grassMaterial);
 ground.receiveShadow = true;
+ground.position.set(0,0,-2);
 ground.rotateX(-PI * 0.5);
 scene.add(ground);
 
@@ -121,7 +122,6 @@ loadGolfBall.load('./golfball3.gltf', (gltfScene) => {
     }
   });
   golfball.position.set(0,1,10);
-  ground.position.set(0,0,-2);
   // golfball.rotation.set(-PI*2.48,-5.75,0);
   scene.add(golfball);
 
