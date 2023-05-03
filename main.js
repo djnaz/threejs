@@ -25,9 +25,8 @@ const scene = new THREE.Scene();
 // setup canvas 
 const renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.useLegacyLights = true;
-renderer.outputEcoding = THREE.sRGBEncoding;
+renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.toneMapping = THREE.CineonToneMapping;
-renderer.toneMappingExposure = 5;
 renderer.shadowMap.enabled = true;
 renderer.shadowMapSoft = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -51,8 +50,8 @@ scene.add(camera);
 
 // add lights
 const color = 0xFFFFFF;
-const intensity = .4;
-const directionalLight = new THREE.DirectionalLight(color, intensity/3);
+const intensity = 1;
+const directionalLight = new THREE.DirectionalLight(color, intensity/1.5);
 directionalLight.castShadow = true;
 const d = 10;
 directionalLight.shadow.camera.left = - d;
@@ -61,14 +60,14 @@ directionalLight.shadow.camera.top = d;
 directionalLight.shadow.camera.bottom = - d;
 directionalLight.shadow.camera.far = 10000;
 directionalLight.shadow.mapSize.set(512, 512);
-directionalLight.shadow.normalBias = 0.05;
+directionalLight.shadow.normalBias = .05;
 directionalLight.position.set(2000, 8000, -2000);
 scene.add(directionalLight);
 
 // Camera Helper
 // scene.add( new THREE.CameraHelper( directionalLight.shadow.camera ) );
 
-const ambientIntensity = 0.05;
+const ambientIntensity = 0.2;
 const ambientLight = new THREE.AmbientLight( color, ambientIntensity ); // soft white light
 scene.add(ambientLight);
 
@@ -109,10 +108,10 @@ tick();
 // load Golf Ball Model
 const loadGolfBall = new GLTFLoader();
 
-loadGolfBall.load('./golfball3.gltf', (gltfScene) => {
+loadGolfBall.load('./golfball4.gltf', (gltfScene) => {
   const golfball = gltfScene.scene;
   const roll = PI*2;
-  console.log(golfball);
+  console.log(gltfScene);
   golfball.traverse(child => {
     if(child instanceof THREE.Mesh){
       child.receiveShadow = true;
