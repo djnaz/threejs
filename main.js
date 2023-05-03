@@ -97,20 +97,12 @@ const onResize = () => {
 window.addEventListener('resize', onResize);
 onResize();
 
-const tick = () => {
-  camera.lookAt(cameraTarget);
-  renderer.render(scene, camera);
-  window.requestAnimationFrame(() => tick());
-}
-
-tick();
-
 // load Golf Ball Model
 const loadGolfBall = new GLTFLoader();
+let golfball = {};
 
 loadGolfBall.load('./golfball4.gltf', (gltfScene) => {
-  const golfball = gltfScene.scene;
-  const roll = PI*2;
+  golfball = gltfScene.scene;
   console.log(gltfScene);
   golfball.traverse(child => {
     if(child instanceof THREE.Mesh){
@@ -118,38 +110,40 @@ loadGolfBall.load('./golfball4.gltf', (gltfScene) => {
       child.castShadow = true;
     }
   });
-  golfball.position.set(0,1,10);
-  // golfball.rotation.set(-PI*2.48,-5.75,0);
   scene.add(golfball);
 
-  //golfball.rotation.x = roll*1; // rotate around x axis 4 times
-
-  const golfballAnimation = () => {
-    let section = 0;
-    const tl = gsap.timeline({
-      default: {
-        duration: 2,
-        ease: 'power2.inOut'
-      },
-      scrollTrigger: {
-        trigger: '.intro',
-        start: 'start -4px',
-        end: 'bottom bottom',
-        scrub: 8,
-
-        markers: true,
-        invalidateOnRefresh: true
-      }
-    })
-
-    tl
-      .addLabel("startLabel", 0)
-      .addLabel("endLabel", 1)
-      .to(golfball.position, {z: -0}, section)
-      .to(golfball.rotation, {x: -PI*4.5}, section)
-  }
-  golfballAnimation();
-  
+  golfballAnimation(); 
 })
 
-renderer.render(scene, camera);
+function golfballAnimation() {
+  golfball.position.set(0,1,10);
+  let section = 0;
+  const tl = gsap.timeline({
+    default: {
+      duration: 2,
+      ease: 'power2.inOut'
+    },
+    scrollTrigger: {
+      trigger: '.intro',
+      start: 'start -4px',
+      end: 'bottom bottom',
+      scrub: 8,
+
+      markers: true,
+      invalidateOnRefresh: true
+    }
+  })
+
+  tl
+    .addLabel("startLabel", 0)
+    .addLabel("endLabel", 1)
+    .to(golfball.position, {z: -0}, section)
+    .to(golfball.rotation, {x: -PI*4.5}, section)
+}
+
+const tick = () => {
+  camera.lookAt(cameraTarget);
+  renderer.render(scene, camera);
+  window.requestAnimationFrame(() => tick());
+}
+tick();
