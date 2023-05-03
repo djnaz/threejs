@@ -17,8 +17,6 @@ const PI = Math.PI;
 
 // SCENE
 
-let size = {width: 0, height: 0};
-
 const scene = new THREE.Scene();
 
 // const axesHelper = new THREE.AxesHelper( 5 );
@@ -26,7 +24,6 @@ const scene = new THREE.Scene();
 
 // setup canvas 
 const renderer = new THREE.WebGLRenderer({antialias: true});
-
 renderer.useLegacyLights = true;
 renderer.outputEcoding = THREE.sRGBEncoding;
 renderer.toneMapping = THREE.CineonToneMapping;
@@ -35,13 +32,16 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMapSoft = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-// const container = document.querySelector('.canvas-wrapper');
-// container.appendChild(renderer.domElement);
-document.body.appendChild( renderer.domElement );
+const container = document.querySelector('.canvas-wrapper');
+container.appendChild(renderer.domElement);
+let canvasWidth = window.innerWidth; // set canvas size to fill viewport on load
+let canvasHeight = window.innerHeight; // set canvas size to fill viewport on load
+console.log(canvasWidth + '/' + canvasHeight);
+renderer.setSize(canvasWidth, canvasHeight);
 
 // setup camera
 const fov = 10;
-const aspect = size.width / size.height;  // the canvas default
+const aspect = canvasWidth / canvasHeight;
 const near = 0.1;
 const far = 200;
 const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
@@ -86,14 +86,12 @@ scene.add(ground);
 
 // on Resize
 const onResize = () => {
-  // size.width = container.clientWidth;
-  // size.height = container.clientHeight;
-  size.width = window.innerWidth;
-  size.height = window.innerHeight;
-  camera.aspect = size.width / size.height;
-  camera.updateProjectionMatrix();
-  renderer.setSize(size.width, size.height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  canvasWidth = container.clientWidth; // set canvas size to fill canvas wrapper on resize
+  canvasHeight = container.clientHeight; // set canvas size to fill canvas wrapper on resize
+  camera.aspect = canvasWidth / canvasHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(canvasWidth, canvasHeight);
   ScrollTrigger.refresh();
 }
 
