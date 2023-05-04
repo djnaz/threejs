@@ -15,12 +15,13 @@ ScrollTrigger.config({
 
 const PI = Math.PI;
 
-// SCENE
+// SCENES
 
 const scene = new THREE.Scene();
+const scene2 = new THREE.Scene();
 
-// const axesHelper = new THREE.AxesHelper( 5 );
-// scene.add( axesHelper );
+const axesHelper = new THREE.AxesHelper( 5 );
+scene.add( axesHelper );
 
 // setup canvas 
 const renderer = new THREE.WebGLRenderer({antialias: true});
@@ -81,7 +82,7 @@ const ground = new THREE.Mesh(plane, grassMaterial);
 ground.receiveShadow = true;
 ground.position.set(0,0,-2);
 ground.rotateX(-PI * 0.5);
-scene.add(ground);
+// scene.add(ground);
 
 // on Resize
 const onResize = () => {
@@ -101,7 +102,7 @@ onResize();
 const loadGolfBall = new GLTFLoader();
 let golfball = {};
 
-loadGolfBall.load('./golfball4.gltf', (gltfScene) => {
+loadGolfBall.load('./golfball4.glb', (gltfScene) => {
   golfball = gltfScene.scene;
   console.log(gltfScene);
   golfball.traverse(child => {
@@ -116,34 +117,67 @@ loadGolfBall.load('./golfball4.gltf', (gltfScene) => {
 })
 
 function golfballAnimation() {
-  golfball.position.set(0,1,10);
-  let section = 0;
-  const tl = gsap.timeline({
-    default: {
-      duration: 2,
-      ease: 'power2.inOut'
-    },
-    scrollTrigger: {
-      trigger: '.intro',
-      start: 'start -4px',
-      end: 'bottom bottom',
-      scrub: 8,
-
-      markers: true,
-      invalidateOnRefresh: true
-    }
-  })
+  scene.position.set(0,1,10);
+  ScrollTrigger.defaults({
+    immediateRender: false,
+    ease: "power1.inOut",
+    scrub: true
+  });
+  const tl = gsap.timeline()
 
   tl
-    .addLabel("startLabel", 0)
-    .addLabel("endLabel", 1)
-    .to(golfball.position, {z: -0}, section)
-    .to(golfball.rotation, {x: -PI*4.5}, section)
+    // intro  
+    .to(scene.position, {z: -0,
+      scrollTrigger: {
+        trigger: '.intro',
+        start: 'start -4px',
+        end: 'bottom bottom',
+
+        markers: true,
+        // invalidateOnRefresh: true
+      }})
+    .to(scene.rotation, {x: -PI*4.5,
+      scrollTrigger: {
+        trigger: '.intro',
+        start: 'start -4px',
+        end: 'bottom bottom',
+
+        markers: true,
+        // invalidateOnRefresh: true
+      }})
+
+      // fade
+      // .to(scene.position, {z: -6,
+      //   scrollTrigger: {
+      //     trigger: '.fade',
+      //     start: 'top top',
+      //     end: 'bottom bottom',
+
+      //     markers: true,
+      //     // invalidateOnRefresh: true
+      //   }})
+      // .to(scene.rotation, {x: -PI*9,
+      //   scrollTrigger: {
+      //     trigger: '.fade',
+      //     start: 'top top',
+      //     end: 'bottom bottom',
+
+      //     markers: true,
+      //     // invalidateOnRefresh: true
+      //   }})
 }
 
-const tick = () => {
+// const tick = () => {
+//   camera.lookAt(cameraTarget);
+//   renderer.render(scene, camera);
+//   window.requestAnimationFrame(() => tick());
+// }
+// tick();
+
+
+function animate() {
   camera.lookAt(cameraTarget);
+  requestAnimationFrame(animate);      
   renderer.render(scene, camera);
-  window.requestAnimationFrame(() => tick());
 }
-tick();
+animate();
