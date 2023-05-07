@@ -18,7 +18,7 @@ function setupScene() {
   let golfball;
 
   function init() {
-    container = document.querySelector(".canvas-wrapper");
+    container = document.querySelector(".golf-intro");
 
     //Create scene
     scene = new THREE.Scene();
@@ -35,7 +35,7 @@ function setupScene() {
     renderer.shadowMapSoft = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-    container = document.querySelector(".canvas-wrapper");
+    container = document.querySelector(".golf-intro");
     container.appendChild(renderer.domElement);
     let canvasWidth = window.innerWidth; // set canvas size to fill viewport on load
     let canvasHeight = window.innerHeight; // set canvas size to fill viewport on load
@@ -70,7 +70,7 @@ function setupScene() {
     directionalLight.shadow.camera.far = 10000;
     directionalLight.shadow.mapSize.set(512, 512);
     directionalLight.shadow.normalBias = 0.05;
-    directionalLight.position.set(2000, 2000, 2000);
+    directionalLight.position.set(2000, 2000, 4000);
     scene.add(directionalLight);
 
     const ambientIntensity = 0.2;
@@ -141,9 +141,8 @@ function setupScene() {
       // immediateRender: false,
       ease: "power2.inOut",
       scrub: 2,
-      end: '2000',
       markers: true,
-      preventOverlaps: true
+      // preventOverlaps: true
     });
 
     scene.position.set(0, 0, 1);
@@ -151,71 +150,91 @@ function setupScene() {
 
     // intro anim
     gsap.to(golfball.rotation, {
-      x: -Math.PI * 2 * 4.1,
+      x: -Math.PI * 3 * 4.1,
       scrollTrigger: {
-        trigger: ".section-two",
+        trigger: ".section-one",
         start: "top bottom",  
+        end: '2000'
       }
     });
     gsap.to(golfball.position, {
-      y: 1.7,
+      y: 1.5,
       scrollTrigger: {
-        trigger: ".section-two",
-        start: "top bottom",
+        trigger: ".section-one",
+        start: "top top",
+        end: '2000'
       }
     });
-
-    // gsap.to(golfball.position, {
-    //   z: -4,
-    //   scrollTrigger: {
-    //     trigger: ".section-two",
-    //     start: "top 30%",
-    //     end: "top top"
-    //   }
-    // });
-
-    // hole anim
     gsap.to(camera.position, {
       y: 2,
       z: -4,
       scrollTrigger: {
-        trigger: ".section-two",
-        start: "1000",
+        trigger: ".section-one",
+        start: "1800",
+        end: '3000',
       }
     });
     gsap.to(golfball.scale, {
-      x: .45,
-      y: .45,
-      z: .45,
+      x: .3,
+      y: .3,
+      z: .3,
       scrollTrigger: {
-        trigger: ".section-two",
-        start: "1000",
+        trigger: ".section-one",
+        start: "1800",
+        end: '3000',
       }
     });
-    gsap.to('.canvas-wrapper', {
+    gsap.to('.golf-intro', {
       opacity: 0,
       scrollTrigger: {
-        trigger: ".section-two",
-        start: "1200",
+        trigger: ".section-one",
+        start: "1600",
         end: "1800"
       }
     });
-
     gsap.to('section', {
       opacity: 1,
       scrollTrigger: {
-        trigger: ".section-two",
-        start: "1600",
+        trigger: ".section-one",
+        start: "1700",
         end: "1800",
       }
     });
-    gsap.to('section', {
-      opacity: 1,
-      scrollTrigger: {
-        trigger: ".section-three",
-        start: "top top",
-        end: "1800",
-      }
+
+    // Page scroll
+    ScrollTrigger.create({
+      trigger: ".section-one",
+      start: "top top",
+      end: "+=3000",
+      pin: true
+    });
+
+    ScrollTrigger.create({
+      trigger: ".section-two",
+      start: "top bottom",
+      end: "bottom bottom",
+      snap: {snapTo: 1, duration: {min: 0.2, max: 3}, directional: false, delay: 1}
+    });
+
+    ScrollTrigger.create({
+      trigger: ".section-three",
+      start: "top bottom",
+      end: "bottom bottom",
+      snap: {snapTo: 1, duration: {min: 0.2, max: 3}, directional: false, delay: 1}
+    });
+
+    ScrollTrigger.create({
+      trigger: ".section-four",
+      start: "top bottom",
+      end: "bottom bottom",
+      snap: {snapTo: 1, duration: {min: 0.2, max: 3}, directional: false, delay: 1}
+    });
+
+    ScrollTrigger.create({
+      trigger: ".section-five",
+      start: "top bottom",
+      end: "bottom bottom",
+      snap: {snapTo: 1, duration: {min: 0.2, max: 3}, directional: false, delay: 1}
     });
 
 
