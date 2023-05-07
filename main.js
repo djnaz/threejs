@@ -131,7 +131,6 @@ function setupScene() {
 
   // golfball anmiation
   function golfballanim() {
-    
     gsap.registerPlugin(ScrollTrigger);
     ScrollTrigger.normalizeScroll(true);
     ScrollTrigger.config({
@@ -148,98 +147,108 @@ function setupScene() {
     scene.position.set(0, 0, 1);
     golfball.position.set(0, -10, 1);
 
+    let tl = gsap.timeline();
+
     // intro anim
-    gsap.to(golfball.rotation, {
-      x: -Math.PI * 3 * 4.1,
-      scrollTrigger: {
-        trigger: ".section-one",
-        start: "top bottom",  
-        end: '2000'
-      }
-    });
-    gsap.to(golfball.position, {
-      y: 1.5,
+    tl.to(golfball.rotation, {
+      x: -Math.PI * 2 * 4.75,
       scrollTrigger: {
         trigger: ".section-one",
         start: "top top",
-        end: '2000'
-      }
-    });
-    gsap.to(camera.position, {
-      y: 2,
-      z: -4,
-      scrollTrigger: {
-        trigger: ".section-one",
-        start: "1800",
-        end: '3000',
-      }
-    });
-    gsap.to(golfball.scale, {
-      x: .3,
-      y: .3,
-      z: .3,
-      scrollTrigger: {
-        trigger: ".section-one",
-        start: "1800",
-        end: '3000',
-      }
-    });
-    gsap.to('.golf-intro', {
-      opacity: 0,
-      scrollTrigger: {
-        trigger: ".section-one",
-        start: "1600",
-        end: "1800"
-      }
-    });
-    gsap.to('section', {
-      opacity: 1,
-      scrollTrigger: {
-        trigger: ".section-one",
-        start: "1700",
-        end: "1800",
-      }
-    });
+        end: "+=3000",
+      },
+    })
+      .to(golfball.position, {
+        y: 1.5,
+        scrollTrigger: {
+          trigger: ".section-one",
+          start: "top top",
+          end: "+=2000",
+        },
+      })
+      .to(camera.position, {
+        y: 2,
+        z: -4,
+        scrollTrigger: {
+          trigger: ".section-one",
+          start: "1500",
+          end: "+=500",
+        },
+      })
+      .to(golfball.scale, {
+        x: 0.3,
+        y: 0.3,
+        z: 0.3,
+        scrollTrigger: {
+          trigger: ".section-one",
+          start: "1500",
+          end: "+=700",
+        },
+      })
+      .to(".golf-intro", {
+        opacity: 0,
+        scrollTrigger: {
+          trigger: ".section-one",
+          start: "1800",
+          end: "+=200",
+        },
+      })
+      .to("section", {
+        opacity: 1,
+        scrollTrigger: {
+          trigger: ".section-one",
+          start: "1900",
+          end: "+=100",
+        },
+      })
+      .to(".section-one", {
+        scrollTrigger: {
+          trigger: ".section-one",
+          start: "top top",
+          end: "+=3000",
+          pin: true
+        },
+      })
 
-    // Page scroll
-    ScrollTrigger.create({
-      trigger: ".section-one",
-      start: "top top",
-      end: "+=3000",
-      pin: true
-    });
+      // Section 2
+      .to(".section-two h2", {
+        x: 100,
+        scrollTrigger: {
+          trigger: ".section-two",
+          start: "top top",
+          end: "+=1000",
+        },
+      })
+      .to(".section-two", {
+        scrollTrigger: {
+          trigger: ".section-two",
+          start: "top top",
+          end: "+=1000",
+          pin: true,
+        }
+      })
 
-    ScrollTrigger.create({
-      trigger: ".section-two",
-      start: "top bottom",
-      end: "bottom bottom",
-      snap: {snapTo: 1, duration: {min: 0.2, max: 3}, directional: false, delay: 1}
-    });
+      // Section 3
+      .to(".section-three h2", {
+        x: 100,
+        scrollTrigger: {
+          trigger: ".section-three",
+          start: "top top",
+          end: "+=1000",
+        },
+      })
+      .to(".section-three", {
+        scrollTrigger: {
+          trigger: ".section-three",
+          start: "top top",
+          end: "+=1000",
+          pin: true,
+        }
+      })
 
-    ScrollTrigger.create({
-      trigger: ".section-three",
-      start: "top bottom",
-      end: "bottom bottom",
-      snap: {snapTo: 1, duration: {min: 0.2, max: 3}, directional: false, delay: 1}
-    });
-
-    ScrollTrigger.create({
-      trigger: ".section-four",
-      start: "top bottom",
-      end: "bottom bottom",
-      snap: {snapTo: 1, duration: {min: 0.2, max: 3}, directional: false, delay: 1}
-    });
-
-    ScrollTrigger.create({
-      trigger: ".section-five",
-      start: "top bottom",
-      end: "bottom bottom",
-      snap: {snapTo: 1, duration: {min: 0.2, max: 3}, directional: false, delay: 1}
-    });
 
 
   }
-
 }
 
 setupScene();
