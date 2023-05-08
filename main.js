@@ -77,8 +77,6 @@ function setupScene() {
     const ambientLight = new THREE.AmbientLight(color, ambientIntensity); // soft white light
     scene.add(ambientLight);
 
-    animate();
-
     // add ground
     const plane = new THREE.PlaneGeometry(30, 30);
     //const groundMaterial = new THREE.MeshStandardMaterial({color: colorGround});
@@ -122,10 +120,15 @@ function setupScene() {
     });
   }
 
+  let requestId;
+
   function animate() {
-    requestAnimationFrame(animate);
     renderer.render(scene, camera);
+    requestId = requestAnimationFrame(animate);
   }
+  
+  // start the animation loop
+  requestId = requestAnimationFrame(animate);
 
   init();
 
@@ -139,7 +142,7 @@ function setupScene() {
     ScrollTrigger.defaults({
       // immediateRender: false,
       ease: "power2.inOut",
-      scrub: 2,
+      scrub: 4,
       markers: true,
       // preventOverlaps: true
     });
@@ -155,7 +158,7 @@ function setupScene() {
       scrollTrigger: {
         trigger: ".section-one",
         start: "top top",
-        end: "+=3000",
+        end: "+=2000",
       },
     })
       .to(golfball.position, {
@@ -163,7 +166,7 @@ function setupScene() {
         scrollTrigger: {
           trigger: ".section-one",
           start: "top top",
-          end: "+=2000",
+          end: "+=1000",
         },
       })
       .to(camera.position, {
@@ -171,8 +174,8 @@ function setupScene() {
         z: -4,
         scrollTrigger: {
           trigger: ".section-one",
-          start: "1500",
-          end: "+=500",
+          start: "800",
+          end: "+=700",
         },
       })
       .to(golfball.scale, {
@@ -181,32 +184,34 @@ function setupScene() {
         z: 0.3,
         scrollTrigger: {
           trigger: ".section-one",
-          start: "1500",
-          end: "+=700",
+          start: "900",
+          end: "+=600",
         },
       })
       .to(".golf-intro", {
         opacity: 0,
         scrollTrigger: {
           trigger: ".section-one",
-          start: "1800",
-          end: "+=200",
+          start: "1200",
+          end: "+=300",
         },
       })
       .to("section", {
         opacity: 1,
         scrollTrigger: {
           trigger: ".section-one",
-          start: "1900",
-          end: "+=100",
+          start: "1300",
+          end: "+=200",
         },
       })
       .to(".section-one", {
         scrollTrigger: {
           trigger: ".section-one",
           start: "top top",
-          end: "+=3000",
-          pin: true
+          end: "+=2000",
+          pin: true,
+          // onLeave: () => cancelAnimationFrame(requestId),
+          // onLeaveBack: () => {requestId = requestAnimationFrame(animate)},
         },
       })
 
@@ -230,7 +235,7 @@ function setupScene() {
 
       // Section 3
       .to(".section-three h2", {
-        x: 100,
+        x: -100,
         scrollTrigger: {
           trigger: ".section-three",
           start: "top top",
