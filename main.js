@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
+// import { ScrollSmoother } from "gsap/ScrollSmoother";
 
 // prevents the last scroll location on the page to be restored
 history.scrollRestoration = "manual";
@@ -96,6 +96,7 @@ function setupScene() {
       camera.aspect = canvasWidth / canvasHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(canvasWidth, canvasHeight);
+      renderer.render(scene, camera);
       ScrollTrigger.refresh();
     };
 
@@ -120,15 +121,15 @@ function setupScene() {
     });
   }
 
-  let requestId;
+  // let requestId;
 
-  function animate() {
-    renderer.render(scene, camera);
-    requestId = requestAnimationFrame(animate);
-  }
+  // function animate() {
+  //   renderer.render(scene, camera);
+  //   requestId = requestAnimationFrame(animate);
+  // }
   
-  // start the animation loop
-  requestId = requestAnimationFrame(animate);
+  // // start the animation loop
+  // requestId = requestAnimationFrame(animate);
 
   init();
 
@@ -143,7 +144,6 @@ function setupScene() {
       // immediateRender: false,
       ease: "power2.inOut",
       scrub: 4,
-      markers: true,
       // preventOverlaps: true
     });
 
@@ -160,9 +160,12 @@ function setupScene() {
         start: "top top",
         end: "+=2000",
       },
+      onUpdate: () => {
+        renderer.render(scene, camera);
+      }
     })
       .to(golfball.position, {
-        y: 1.5,
+        y: 1.3,
         scrollTrigger: {
           trigger: ".section-one",
           start: "top top",
@@ -210,8 +213,6 @@ function setupScene() {
           start: "top top",
           end: "+=2000",
           pin: true,
-          // onLeave: () => cancelAnimationFrame(requestId),
-          // onLeaveBack: () => {requestId = requestAnimationFrame(animate)},
         },
       })
 
