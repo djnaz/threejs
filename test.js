@@ -80,7 +80,7 @@ function setupScene() {
     // add ground
     const plane = new THREE.PlaneGeometry(32, 16);
     //const groundMaterial = new THREE.MeshStandardMaterial({color: colorGround});
-    const grassMap = new THREE.TextureLoader().load("./turf.webp");
+    const grassMap = new THREE.TextureLoader().load("./turf2.webp");
     const grassMaterial = new THREE.MeshStandardMaterial({ map: grassMap });
     grassMaterial.map.encoding = THREE.sRGBEncoding;
     const ground = new THREE.Mesh(plane, grassMaterial);
