@@ -94,6 +94,11 @@ function setupScene() {
       canvasWidth = container.clientWidth; // set canvas size to fill canvas wrapper on resize
       canvasHeight = container.clientHeight; // set canvas size to fill canvas wrapper on resize
       camera.aspect = canvasWidth / canvasHeight;
+      if(window.visualViewport.width < 800) {
+        camera.position.set(0,0,200);
+      } else {
+        camera.position.set(0,0,100);
+      }   
       camera.updateProjectionMatrix();
       renderer.setSize(canvasWidth, canvasHeight);
       renderer.render(scene, camera);
@@ -147,7 +152,7 @@ function setupScene() {
       // preventOverlaps: true
     });
 
-    scene.position.set(0, 0, 1);
+    // scene.position.set(0, 0, 1);
     golfball.position.set(0, -9, 1);
 
     let tl = gsap.timeline();
@@ -179,6 +184,7 @@ function setupScene() {
           trigger: ".section-one",
           start: "800",
           end: "+=700",
+          invalidateOnRefresh: true
         },
       })
       .to(golfball.scale, {
