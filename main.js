@@ -203,7 +203,15 @@ function setupScene() {
           trigger: ".section-one",
           start: "1200",
           end: "+=300",
-        },
+          // onLeave: () => {
+          //   const golfIntro = document.querySelector(".golf-intro");
+          //   golfIntro.style.display = "none";
+          // },
+          // onEnterBack: () => {
+          //   const golfIntro = document.querySelector(".golf-intro");
+          //   golfIntro.style.display = "block";
+          // },
+        }
       })
       .to("section", {
         opacity: 1,
@@ -211,7 +219,7 @@ function setupScene() {
           trigger: ".section-one",
           start: "1300",
           end: "+=200",
-        },
+        }
       })
       .to(".section-one img", {
         scale: 1.4,
@@ -233,7 +241,7 @@ function setupScene() {
 
 
       // Section 2
-      
+      // timeline 6000
       .to(".section-two", {
         scrollTrigger: {
           trigger: ".section-two",
@@ -252,7 +260,7 @@ function setupScene() {
       })
 
       // Section 3
-      
+      // timeline 7000
       .to(".section-three", {
         scrollTrigger: {
           trigger: ".section-three",
@@ -269,6 +277,28 @@ function setupScene() {
           end: "+=1000",
         },
       })
+
+      // Section 4
+      // timeline 8000
+      .to(".section-four", {
+        scrollTrigger: {
+          trigger: ".section-four",
+          start: "top top",
+          end: "+=1000",
+          pin: true,
+        }
+      })
+      .to(".section-four h2", {
+        x: 100,
+        scrollTrigger: {
+          trigger: ".section-four",
+          start: "top top",
+          end: "+=1000",
+        },
+      })
+
+      // Section 5
+      // timeline 9000
 
 
 

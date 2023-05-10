@@ -25,6 +25,7 @@ section {
     justify-content: center;
     align-items: center;
     opacity: 0;
+
     &.section-one {
         picture {
             position: absolute;
@@ -36,16 +37,36 @@ section {
                 height: 100%;
             }
         }
+        .rsvp-card {
+            opacity: 0;
+            position: relative;
+            z-index: 1;
+            width: 90%;
+            max-width: 800px;
+            aspect-ratio: 3.5 / 2;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .rsvp-link {
+                cursor: pointer;
+                display: block;
+            }
+        }
     }
+
     &.section-two {
         background-color: steelblue;
     }
+
     &.section-three {
         background-color: crimson;
     }
+
     &.section-four {
         background-color: lime;
     }
+
     &.section-five {
         background-color: grey;
         min-height: 100dvh;
