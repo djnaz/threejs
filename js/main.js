@@ -1,4 +1,4 @@
-import "./styles/scss/main.scss";
+import "../styles/scss/main.scss";
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import gsap from "gsap";
@@ -20,13 +20,12 @@ function setupScene() {
   let golfball;
 
   function init() {
-    container = document.querySelector(".golf-intro");
 
     //Create scene
     scene = new THREE.Scene();
 
-    const axesHelper = new THREE.AxesHelper(5);
-    scene.add(axesHelper);
+    // const axesHelper = new THREE.AxesHelper(5);
+    // scene.add(axesHelper);
 
     //Renderer
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -37,25 +36,17 @@ function setupScene() {
     renderer.shadowMapSoft = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-    container = document.querySelector(".golf-intro");
+    container = document.querySelector(".canvas-wrapper");
     container.appendChild(renderer.domElement);
-    let canvasWidth = window.innerWidth; // set canvas size to fill viewport on load
-    let canvasHeight = window.innerHeight; // set canvas size to fill viewport on load
-    console.log(canvasWidth + "/" + canvasHeight);
-    renderer.setSize(canvasWidth, canvasHeight);
-
-    // function render() {
-    //   renderer.render(scene, camera);
-    // }
 
     // setup camera
     const fov = 9;
-    const aspect = canvasWidth / canvasHeight;
+    const aspect = 1 / 1;
     const near = 0.1;
     const far = 200;
 
     camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    camera.position.set(0, 0, 100);
+    camera.position.set(0, 0, 75);
     let cameraTarget = new THREE.Vector3(0, 0, -4);
     scene.add(camera);
 
@@ -80,12 +71,12 @@ function setupScene() {
     scene.add(ambientLight);
 
     // add ground
-    const plane = new THREE.PlaneGeometry(32, 16);
-    //const groundMaterial = new THREE.MeshStandardMaterial({color: colorGround});
-    const grassMap = new THREE.TextureLoader().load("./turf2.webp");
+    const plane = new THREE.PlaneGeometry(28, 13.78125);
+    const grassMap = new THREE.TextureLoader().load("./rsm-grass-texture-1.webp");
+    const grassMap2 = new THREE.TextureLoader().load("./rsm-grass-texture-2.webp");
     const grassMaterial = new THREE.MeshStandardMaterial({ map: grassMap });
     grassMaterial.map.encoding = THREE.sRGBEncoding;
-    const ground = new THREE.Mesh(plane, grassMaterial);
+    let ground = new THREE.Mesh(plane, grassMaterial);
     ground.receiveShadow = true;
     ground.position.set(0, 0, 0);
     scene.add(ground);
@@ -93,25 +84,48 @@ function setupScene() {
     // on Resize
     const onResize = () => {
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      canvasWidth = container.clientWidth; // set canvas size to fill canvas wrapper on resize
-      canvasHeight = container.clientHeight + 100; // set canvas size to fill canvas wrapper on resize
-      camera.aspect = canvasWidth / canvasHeight;
-      // if(window.visualViewport.width < 800) {
-      //   window.scrollTo(0, 0)
-      // } else {
-      //   window.scrollTo(0, 0)
-      // }   
+
+      let viewportWidth = window.innerWidth;
+      let viewportHeight = window.innerHeight;
+      let containerWidth;
+
+      if(viewportWidth > 2000) {
+        containerWidth = 2000;
+      } else {
+        containerWidth = viewportWidth;
+      }
+
+      if(viewportWidth < 1280) {
+        grassMaterial.map = grassMap2;
+        grassMaterial.map.encoding = THREE.sRGBEncoding;
+        grassMaterial.map.needsUpdate = true;
+      } else {
+        grassMaterial.map = grassMap;
+        grassMaterial.map.encoding = THREE.sRGBEncoding;
+        grassMaterial.map.needsUpdate = true;
+      }
+
+      camera.aspect = containerWidth / viewportHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(canvasWidth, canvasHeight);
+      renderer.setSize(containerWidth, viewportHeight);
+
+      if(visualViewport.width < 1280) {
+        camera.position.set(0, 1, 70);
+      } else if(visualViewport.width < 1600) {
+        camera.position.set(0, 0, 62);
+      } else {
+        camera.position.set(0, 0, 62);
+      }
+
       renderer.render(scene, camera);
-      // ScrollTrigger.refresh();
+      ScrollTrigger.refresh();
     };
 
     window.addEventListener("resize", onResize);
     onResize();
 
     Fancybox.bind("[data-fancybox]", {
-      // Your custom options
+      // custom options
     });
 
     // load Golf Ball Model
@@ -132,16 +146,6 @@ function setupScene() {
     });
   }
 
-  // let requestId;
-
-  // function animate() {
-  //   renderer.render(scene, camera);
-  //   requestId = requestAnimationFrame(animate);
-  // }
-  
-  // // start the animation loop
-  // requestId = requestAnimationFrame(animate);
-
   init();
 
   // golfball anmiation
@@ -159,19 +163,9 @@ function setupScene() {
     });
     ScrollTrigger.refresh();
 
-    const gothere = document.querySelector('.gothere');
-    gothere.addEventListener('click', () => {
-      gsap.to(window, {
-        duration: 2,
-        scrollTo: "#section-six"
-      })
-    })
-
     // scene.position.set(0, 0, 1);
     golfball.position.set(0, -9, 1);
-
-
-    // ScrollTrigger.saveStyles(".section-one, section-two, section-three, section-four, section-five");
+    golfball.scale.set(.7,.7,.7);
 
     let mm = gsap.matchMedia();
 
@@ -182,7 +176,7 @@ function setupScene() {
 
     // intro anim
     tl.to(golfball.rotation, {
-      x: -Math.PI * 2 * 4.25,
+      x: -Math.PI * 2 * 5.5,
       scrollTrigger: {
         trigger: ".section-one",
         start: "top top",
@@ -220,6 +214,14 @@ function setupScene() {
           start: "800",
           end: "+=700",
         },
+      })
+      .to(".scroll-circle", {
+        opacity: 0,
+        scrollTrigger: {
+          trigger: ".section-one",
+          start: "top top",
+          end: "+=200"
+        }
       })
       .to(".golf-intro", {
         opacity: 0,
@@ -262,7 +264,6 @@ function setupScene() {
           trigger: ".section-one",
           start: "2400",
           end: "+=200",
-          markers: true
         }
       })
       .to(".section-one", {
@@ -283,7 +284,7 @@ function setupScene() {
           trigger: ".section-two",
           start: "top top",
           end: "+=1000",
-          pin: true,
+          // pin: true,
         }
       })
 
@@ -294,7 +295,7 @@ function setupScene() {
           trigger: ".section-three",
           start: "top top",
           end: "+=1000",
-          pin: true,
+          // pin: true,
         }
       })
 
@@ -305,7 +306,7 @@ function setupScene() {
           trigger: ".section-four",
           start: "top top",
           end: "+=2000",
-          pin: true,
+          // pin: true,
         }
       })
 
@@ -316,7 +317,7 @@ function setupScene() {
           trigger: ".section-five",
           start: "top top",
           end: "+=1000",
-          pin: true,
+          // pin: true,
         }
       })
 
@@ -327,9 +328,65 @@ function setupScene() {
           trigger: ".section-six",
           start: "top top",
           end: "+=1000",
-          pin: true,
+          // pin: true,
         }
       })
+
+      // Additional Animations
+      // gsap.set(".gallery2 > a", {x: 1000, opacity: 0});
+      // ScrollTrigger.batch(".gallery2 > a", {
+      //   onEnter: batch => {
+      //     gsap.to(batch, {
+      //       x: 0,
+      //       opacity: 1,
+      //       stagger: 0.15,
+      //     });
+      //   }
+      // });
+
+      gsap.set(".gallery1 > a", {x: 200, opacity: 0});
+          ScrollTrigger.batch(".gallery1 > a", {
+            onEnter: (elements,triggers) => gsap.to(elements, {
+                x: 0,
+                opacity: 1,
+                stagger: {
+                  each: 0.15,
+                },
+                scrollTrigger: {
+                  trigger: elements[0],
+                  start: "top 80%",
+                  end: "top 70%",
+                  scrub: 1,
+                  fastScrollEnd: true
+                },
+                overwrite: true
+              }),
+          });
+          gsap.set(".gallery2 > a", {x: 200, opacity: 0});
+          ScrollTrigger.batch(".gallery2 > a", {
+            onEnter: (elements,triggers) => gsap.to(elements, {
+                x: 0,
+                opacity: 1,
+                stagger: 0.15,
+                scrollTrigger: {
+                  trigger: elements[0],
+                  start: "top 80%",
+                  end: "top 70%",
+                  scrub: 1,
+                  fastScrollEnd: true
+                },
+                overwrite: true
+              }),
+          });
+          // when ScrollTrigger does a refresh(), it maps all the positioning data which 
+          // factors in transforms, but in this example we're initially setting all the ".box"
+          // elements to a "y" of 100 solely for the animation in which would throw off the normal 
+          // positioning, so we use a "refreshInit" listener to reset the y temporarily. When we 
+          // return a gsap.set() in the listener, it'll automatically revert it after the refresh()!
+          ScrollTrigger.addEventListener("refreshInit", () => {
+            gsap.set(".gallery1 > a", {x: 200, opacity: 0});
+            gsap.set(".gallery2 > a", {x: 200, opacity: 0});
+          });
 
       return () => {
         // when changing from mobile to desktop, reset scrollbar to top
@@ -338,24 +395,7 @@ function setupScene() {
 
       })
 
-      gsap.set(".gallery2 > a", {x: 1000, opacity: 0});
-      ScrollTrigger.batch(".gallery2 > a", {
-        onEnter: batch => {
-          gsap.to(batch, {
-            x: 0,
-            opacity: 1,
-            stagger: 0.15,
-            // scrollTrigger: {
-            //   trigger: elements[0],
-            //   start: "top center",
-            //   end: "+=1000",
-            //   scrub: 1,
-            //   preventOverlaps: true
-            // },
-            // overwrite: true
-          });
-        }
-      });
+      
 
 
       // MOBILE ANIMATION
@@ -436,11 +476,21 @@ function setupScene() {
             },
             ease: "power3.out"
           })
+          // Section 1
+          // timeline 6000
+          .from(".rsvp-card", {
+            xPercent: 200,
+            scrollTrigger: {
+              trigger: ".section-one",
+              start: "2400",
+              end: "+=200",
+            }
+          })
           .to(".section-one", {
             scrollTrigger: {
               trigger: ".section-one",
               start: "top top",
-              end: "+=6000",
+              end: "+=4000",
               pin: true,
             },
           })
@@ -448,31 +498,23 @@ function setupScene() {
     
           // Section 2
           // timeline 6000
-          .to(".section-two", {
-            scrollTrigger: {
-              trigger: ".section-two",
-              start: "top top",
-              end: "+=1000",
-            }
-          })
-          // .to(".section-two h2", {
-          //   x: 100,
+          // .to(".section-two", {
           //   scrollTrigger: {
           //     trigger: ".section-two",
           //     start: "top top",
           //     end: "+=1000",
-          //   },
+          //   }
           // })
     
           // Section 3
           // timeline 7000
-          .to(".section-three", {
-            scrollTrigger: {
-              trigger: ".section-three",
-              start: "top top",
-              end: "+=1000",
-            }
-          })
+          // .to(".section-three", {
+          //   scrollTrigger: {
+          //     trigger: ".section-three",
+          //     start: "top top",
+          //     end: "+=1000",
+          //   }
+          // })
           // .to(".section-three h2", {
           //   x: -100,
           //   scrollTrigger: {
@@ -484,13 +526,13 @@ function setupScene() {
     
           // Section 4
           // timeline 8000
-          .to(".section-four", {
-            scrollTrigger: {
-              trigger: ".section-four",
-              start: "top top",
-              end: "+=1000",
-            }
-          })
+          // .to(".section-four", {
+          //   scrollTrigger: {
+          //     trigger: ".section-four",
+          //     start: "top top",
+          //     end: "+=1000",
+          //   }
+          // })
           // .to(".section-four h2", {
           //   x: 100,
           //   scrollTrigger: {
@@ -510,47 +552,41 @@ function setupScene() {
     
           });
 
-          gsap.set(".gallery1 > a", {x: 200, opacity: 0});
-          ScrollTrigger.batch(".gallery1 > a", {
-            onEnter: (elements,triggers) => gsap.to(elements, {
-                x: 0,
-                opacity: 1,
-                stagger: {
-                  each: 0.15,
-                },
-                scrollTrigger: {
-                  trigger: elements[0],
-                  start: "top center",
-                  scrub: 1,
-                  fastScrollEnd: true
-                },
-                overwrite: true
-              }),
+          // Ballmarker Anim
+          const ballmarker = document.querySelector('.ballmarker');
+          const navlinks = document.querySelector('.nav-links > div');
+          ballmarker.addEventListener('click', () => {
+            if(ballmarker.classList.contains('active')) {
+              gsap.to(navlinks, {
+                duration: .5,
+                xPercent: -100,
+                opacity: 0
+              });
+            } else {
+              gsap.to(navlinks, {
+                duration: .5,
+                xPercent: 0,
+                opacity: 1
+              });
+            }    
+            ballmarker.classList.toggle('active');  
           });
-          gsap.set(".gallery2 > a", {x: 200, opacity: 0});
-          ScrollTrigger.batch(".gallery2 > a", {
-            onEnter: (elements,triggers) => gsap.to(elements, {
-                x: 0,
-                opacity: 1,
-                stagger: 0.15,
-                scrollTrigger: {
-                  trigger: elements[0],
-                  start: "top center",
-                  scrub: 1,
-                  fastScrollEnd: true
-                },
-                overwrite: true
-              }),
-          });
-          // when ScrollTrigger does a refresh(), it maps all the positioning data which 
-          // factors in transforms, but in this example we're initially setting all the ".box"
-          // elements to a "y" of 100 solely for the animation in which would throw off the normal 
-          // positioning, so we use a "refreshInit" listener to reset the y temporarily. When we 
-          // return a gsap.set() in the listener, it'll automatically revert it after the refresh()!
-          ScrollTrigger.addEventListener("refreshInit", () => {
-            gsap.set(".gallery1 > a", {x: 200, opacity: 0});
-            gsap.set(".gallery2 > a", {x: 200, opacity: 0});
-          });
+
+          // RSVP button links
+          const gothere = document.querySelectorAll('.alink');
+          gothere.forEach(link => {
+            const alink = link.getAttribute('data-link');
+            link.addEventListener('click', (e) => {
+              e.preventDefault();
+              console.log('success');
+                gsap.to(window, {
+                  duration: 0,
+                  scrollTo: alink
+                })
+              })
+          })
+
+          
 
 
 
