@@ -31,6 +31,7 @@ $light-fill: #F5F5F5;
 html {
     width: 100%;
     font-size: 16px;
+    overscroll-behavior: none;
 }
 
 img {
@@ -38,7 +39,7 @@ img {
 }
 
 body {
-    background-color: #000;
+    background-color: #fff;
     color: $light-gray;
     text-align: center;
     font-family: 'Prelo-book', Verdana;
@@ -47,7 +48,7 @@ body {
     line-height: 1.65;
     overflow-x: hidden;
     width: 100%;
-    height: 100dvh;
+    height: 100svh;;
     max-width: 2000px;
     margin: auto;
 }
@@ -108,7 +109,7 @@ p {
 section {
     background-color: #fff;
 	width: 100%;
-    height: 100dvh;
+    height: 100svh;;
     min-height: 800px;
 	position: relative;
     display: flex;
@@ -135,7 +136,7 @@ section {
 
     &.section-one {
         @media screen and (max-width: 800px) {
-            min-height: 100dvh;
+            min-height: 100svh;;
         }
         picture {
             position: absolute;
@@ -473,7 +474,7 @@ section {
     top: 0;
     width: 100%;
     max-width: 2000px;
-    height: 100dvh;
+    height: 100svh;;
     margin: auto;
     display: flex;
     justify-content: center;
