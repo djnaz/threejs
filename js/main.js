@@ -126,6 +126,17 @@ function setupScene() {
 
     Fancybox.bind("[data-fancybox]", {
       // custom options
+      Toolbar: {
+        display: {
+          left: [],
+          middle: [],
+          right: ["fullscreen", "thumbs", "close"],
+        },
+      },
+      Thumbs: {
+        type: "classic",
+        showOnStart: false
+      }
     });
 
     // load Golf Ball Model
@@ -158,7 +169,7 @@ function setupScene() {
     ScrollTrigger.defaults({
       immediateRender: false,
       ease: "power2.inOut",
-      scrub: 2,
+      scrub: 3,
       // preventOverlaps: true
     });
     ScrollTrigger.refresh();
@@ -333,18 +344,8 @@ function setupScene() {
       })
 
       // Additional Animations
-      // gsap.set(".gallery2 > a", {x: 1000, opacity: 0});
-      // ScrollTrigger.batch(".gallery2 > a", {
-      //   onEnter: batch => {
-      //     gsap.to(batch, {
-      //       x: 0,
-      //       opacity: 1,
-      //       stagger: 0.15,
-      //     });
-      //   }
-      // });
 
-      gsap.set(".gallery1 > a", {x: 200, opacity: 0});
+      gsap.set(".gallery1 > a", {x: 100, opacity: 0});
           ScrollTrigger.batch(".gallery1 > a", {
             onEnter: (elements,triggers) => gsap.to(elements, {
                 x: 0,
@@ -352,17 +353,31 @@ function setupScene() {
                 stagger: {
                   each: 0.15,
                 },
+                ease: "Power3.inOut",
                 scrollTrigger: {
                   trigger: elements[0],
                   start: "top 80%",
                   end: "top 70%",
-                  scrub: 1,
+                  scrub: 4,
                   fastScrollEnd: true
                 },
                 overwrite: true
               }),
           });
-          gsap.set(".gallery2 > a", {x: 200, opacity: 0});
+          gsap.set(".section-four .content-left", {xPercent: -100, opacity: 0});
+          gsap.to(".section-four .content-left", {
+            xPercent: 0,
+            opacity: 1,
+            scrollTrigger: {
+              trigger: ".section-four .content-left",
+              start: "top 50%",
+              end: "top 40%",
+              scrub: 4,
+              fastScrollEnd: true
+            },
+            overwrite: true
+          });
+          gsap.set(".gallery2 > a", {x: 100, opacity: 0});
           ScrollTrigger.batch(".gallery2 > a", {
             onEnter: (elements,triggers) => gsap.to(elements, {
                 x: 0,
@@ -372,7 +387,7 @@ function setupScene() {
                   trigger: elements[0],
                   start: "top 80%",
                   end: "top 70%",
-                  scrub: 1,
+                  scrub: 4,
                   fastScrollEnd: true
                 },
                 overwrite: true
@@ -384,6 +399,7 @@ function setupScene() {
           // positioning, so we use a "refreshInit" listener to reset the y temporarily. When we 
           // return a gsap.set() in the listener, it'll automatically revert it after the refresh()!
           ScrollTrigger.addEventListener("refreshInit", () => {
+            gsap.set(".section-four .content-left", {xPercent: -100, opacity: 0});
             gsap.set(".gallery1 > a", {x: 200, opacity: 0});
             gsap.set(".gallery2 > a", {x: 200, opacity: 0});
           });
@@ -556,6 +572,7 @@ function setupScene() {
           gsap.set(".gallery1 > a", {x: 0, opacity: 1});
 
           ScrollTrigger.addEventListener("refreshInit", () => {
+            gsap.set(".section-four .content-left", {xPercent: 0, opacity: 1});
             gsap.set(".gallery1 > a", {x: 0, opacity: 1});
             gsap.set(".gallery2 > a", {x: 0, opacity: 1});
           });

@@ -622,7 +622,7 @@ section {
         .wrapper {
             .form-wrapper {
                 width: 100%;
-                padding: 5vw 7.5vw;
+                padding: 5vw 7.5vw 7.5vw;
                 box-sizing: border-box;
                 background-color: white;
                 z-index: 1;
@@ -963,9 +963,10 @@ section {
                 line-height: 2;
             }
             span {
-                display: inline;
+                display: block;
                 font-family: 'Prelo-bold' !important;
                 text-transform: uppercase;
+                margin-top: .5rem;
             }
         }
         // Privacy Policy
@@ -977,9 +978,10 @@ section {
                 line-height: 2;
             }
             span {
-                display: inline;
+                display: block;
                 font-family: 'Prelo-bold' !important;
                 text-transform: uppercase;
+                margin-top: .5rem;
             }
         }
         // Submission Statement
