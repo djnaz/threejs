@@ -247,7 +247,7 @@ function setupScene() {
           end: "+=200",
         }
       })
-      .to(".section-one img", {
+      .to(".section-one picture img", {
         scale: 1.4,
         scrollTrigger: {
           trigger: ".section-one",
@@ -443,6 +443,14 @@ function setupScene() {
               end: "+=700",
             },
           })
+          .to(".scroll-circle", {
+            opacity: 0,
+            scrollTrigger: {
+              trigger: ".section-one",
+              start: "top top",
+              end: "+=200"
+            }
+          })
           .to(".golf-intro", {
             opacity: 0,
             scrollTrigger: {
@@ -467,7 +475,7 @@ function setupScene() {
               end: "+=200",
             }
           })
-          .to(".section-one img", {
+          .to(".section-one picture img", {
             scale: 1.4,
             scrollTrigger: {
               trigger: ".section-one",
@@ -544,6 +552,13 @@ function setupScene() {
     
           // Section 5
           // timeline 9000
+
+          gsap.set(".gallery1 > a", {x: 0, opacity: 1});
+
+          ScrollTrigger.addEventListener("refreshInit", () => {
+            gsap.set(".gallery1 > a", {x: 0, opacity: 1});
+            gsap.set(".gallery2 > a", {x: 0, opacity: 1});
+          });
     
           return () => {
             // when changing from mobile to desktop, reset scrollbar to top
