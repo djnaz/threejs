@@ -243,9 +243,9 @@ section {
                     text-align: center;
                 }
                 .wrapper {
-                    width: calc(100% + 17vw);
+                    width: calc(100% + 8vw);
                     height: 0;
-                    padding-bottom: calc((100% + 17vw) * 0.67);
+                    padding-bottom: calc((100% + 8vw) * 0.754);
                     position: relative;
                     @media screen and (max-width: 800px) {
                         width: 100%;
@@ -254,8 +254,11 @@ section {
                     }
                     a { 
                         width: 100%;
+                        height: 75.4vw;
                         position: relative;
+                        overflow: hidden;
                         @media screen and (max-width: 800px) {
+                            height: 50vw;
                             margin-top: 2.5vw;
                             &:first-child {
                                 margin-top: 0;
@@ -265,11 +268,8 @@ section {
                             display: none;
                         }
                         div {
-                            width: 100%;
-                            height: 67vw;
-                            @media screen and (max-width: 800px) {
-                                height: 50vw;
-                            }
+                            position: absolute;
+                            inset: 0 0 0 0;
                             img {
                                 object-fit: cover;
                                 width: 100%;
@@ -286,9 +286,12 @@ section {
                             &.image1 {
                                 position: absolute;
                                 top: 36.5%;
-                                left: 0;
+                                top: 38.6%;
+                                left: 0;;
                                 right: 65.3%;
+                                right: 60.3%;
                                 bottom: 29.3%;
+                                bottom: 26.4%;
                                 z-index: 2;
                                 box-shadow: 0.25rem 0.25rem 0.5rem rgba(0, 0, 0, .4);
                             }
@@ -297,6 +300,10 @@ section {
                                 top: 0;
                                 left: 18.9%;
                                 right: 32.6%;
+                                bottom: 52.1%;
+                                top: 0;
+                                left: 19.9%;
+                                right: 25.8%;
                                 bottom: 52.1%;
                                 z-index: 1;
                                 box-shadow: 0.25rem 0.25rem 0.5rem rgba(0, 0, 0, .4);
@@ -307,6 +314,10 @@ section {
                                 left: 46.1%;
                                 right: 0;
                                 bottom: 16%;
+                                top: 33.3%;
+                                left: 45.8%;
+                                right: 0;
+                                bottom: 18.8%;
                                 box-shadow: 0.25rem 0.25rem 0.5rem rgba(0, 0, 0, .4);
                             }
                             &.image4 {
@@ -315,6 +326,10 @@ section {
                                 top: 57.6%;
                                 left: 18.9%;
                                 right: 38%;
+                                bottom: 0;
+                                top: 57.4%;
+                                left: 19.9%;
+                                right: 31.8%;
                                 bottom: 0;
                                 z-index: 1;
                                 box-shadow: 0.25rem 0.25rem 0.5rem rgba(0, 0, 0, .4);
