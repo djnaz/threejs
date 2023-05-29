@@ -121,7 +121,7 @@ function setupScene() {
       renderer.setSize(containerWidth, containerHeight);
 
       if(visualViewport.width < 1280) {
-        camera.position.set(0, 1, 70);
+        camera.position.set(0, 1.25, 70);
       } else if(visualViewport.width < 1600) {
         camera.position.set(0, 0, 62);
       } else {
@@ -334,7 +334,7 @@ function setupScene() {
         opacity: 1,
         scrollTrigger: {
           trigger: ".section-two",
-          start: "top bottom",
+          start: "top 75%",
           end: "+=400"
         },
       });
@@ -348,7 +348,7 @@ function setupScene() {
               ease: "Power3.inOut",
                 scrollTrigger: {
                   trigger: elements[0],
-                  start: "top 90%",
+                  start: "top 75%",
                   end: "+=400",
                   scrub: 2,
                   fastScrollEnd: true
@@ -363,7 +363,7 @@ function setupScene() {
         scrollTrigger: {
           trigger: ".section-three",
           start: "top top",
-          end: "+=850",
+          end: "+=400",
           pin: true,
         },
       });
@@ -381,14 +381,35 @@ function setupScene() {
       });
 
       // Section 4
+      gsap.to(".section-four", {
+        scrollTrigger: {
+          trigger: ".section-four",
+          start: "top top",
+          end: "+=1000",
+          pin: true,
+        },
+      });
+
+      gsap.set(".section-four > picture .overlay", {opacity: 0});
+      gsap.to(".section-four > picture .overlay", {
+        opacity: .35,
+        scrollTrigger: {
+          trigger: ".section-four .content-left",
+          start: "top top",
+          end: "+=400",
+          scrub: 3,
+          fastScrollEnd: true
+        },
+        overwrite: true
+      });
       gsap.set(".section-four .content-left", {xPercent: -100, opacity: 0});
       gsap.to(".section-four .content-left", {
         xPercent: 0,
         opacity: 1,
         scrollTrigger: {
           trigger: ".section-four .content-left",
-          start: "top 50%",
-          end: "top 40%",
+          start: "top 25%",
+          end: "+=400",
           scrub: 3,
           fastScrollEnd: true
         },
@@ -402,8 +423,8 @@ function setupScene() {
             stagger: 0.15,
             scrollTrigger: {
               trigger: elements[0],
-              start: "top 80%",
-              end: "top 70%",
+              start: "top 20%",
+              end: "+=400",
               scrub: 3,
               fastScrollEnd: true
             },
@@ -413,7 +434,60 @@ function setupScene() {
 
       // Section 5
 
+      gsap.to(".section-five", {
+        scrollTrigger: {
+          trigger: ".section-five",
+          start: "top top",
+          end: "+=850",
+          pin: true,
+        },
+      });
+
+      const section5left = document.querySelector('.section-five .content-left');
+      gsap.set(section5left, {x: -200, opacity: 0});
+      gsap.to(section5left, {
+        x: 0,
+        opacity: 1,
+        scrollTrigger: {
+          trigger: ".section-five",
+          start: "top 75%",
+          end: "+=400"
+        },
+      });
+      const section5right = document.querySelector('.section-five .content-right');
+      gsap.set(section5right, {x: 200, opacity: 0});
+      gsap.to(section5right, {
+        x: 0,
+        opacity: 1,
+        scrollTrigger: {
+          trigger: ".section-five",
+          start: "top center",
+          end: "+=400"
+        },
+      });
+
       // Section 6
+
+      gsap.to(".section-six", {
+        scrollTrigger: {
+          trigger: ".section-six",
+          start: "top top",
+          end: "+=850",
+          pin: true,
+        },
+      });
+
+      const section6form = document.querySelector('.section-six .form-wrapper');
+      gsap.set(section6form, {y: 200, opacity: 0});
+      gsap.to(section6form, {
+        y: 0,
+        opacity: 1,
+        scrollTrigger: {
+          trigger: ".section-six",
+          start: "top 25%",
+          end: "+=400"
+        },
+      });
 
           // when ScrollTrigger does a refresh(), it maps all the positioning data which 
           // factors in transforms, but in this example we're initially setting all the ".box"
@@ -635,7 +709,10 @@ function setupScene() {
               console.log('success');
                 gsap.to(window, {
                   duration: 0,
-                  scrollTo: alink
+                  scrollTo: {
+                    y: alink,
+                    offsetY: -400
+                  }
                 })
               })
           });

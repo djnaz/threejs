@@ -317,14 +317,14 @@ section {
                 width: 100%;
                 height: 100%;
             }
-            &::after {
-                content: '';
+            .overlay {
                 position: absolute;
                 inset: 0 0 0 0;
-                background-color: rgba(0,0,0,.35);
-                @media screen and (max-width: 800px) {
-                    content: none;
-                }
+                background-color: black;
+                opacity: 0;
+                // @media screen and (max-width: 800px) {
+                //     content: none;
+                // }
             }
             @media screen and (max-width: 800px) {
                 position: relative;
