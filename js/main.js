@@ -20,7 +20,6 @@ function setupScene() {
   let golfball;
 
   function init() {
-
     //Create scene
     scene = new THREE.Scene();
 
@@ -72,8 +71,12 @@ function setupScene() {
 
     // add ground
     const plane = new THREE.PlaneGeometry(28, 13.78125);
-    const grassMap = new THREE.TextureLoader().load("/images/threejs/rsm-grass-texture-1.webp");
-    const grassMap2 = new THREE.TextureLoader().load("/images/threejs/rsm-grass-texture-2.webp");
+    const grassMap = new THREE.TextureLoader().load(
+      "/images/threejs/rsm-grass-texture-1.webp"
+    );
+    const grassMap2 = new THREE.TextureLoader().load(
+      "/images/threejs/rsm-grass-texture-2.webp"
+    );
     const grassMaterial = new THREE.MeshStandardMaterial({ map: grassMap });
     grassMaterial.map.encoding = THREE.sRGBEncoding;
     let ground = new THREE.Mesh(plane, grassMaterial);
@@ -88,50 +91,48 @@ function setupScene() {
     let containerHeight;
     // on Resize
     const onResize = () => {
-
       resizeWidth = window.innerWidth;
       viewportHeight = window.innerHeight;
 
-      if(resizeWidth !== viewportWidth) {
+      if (resizeWidth !== viewportWidth) {
         viewportWidth = resizeWidth;
 
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-      if(viewportWidth > 2000) {
-        containerWidth = 2000;
-      } else {
-        containerWidth = viewportWidth;
+        if (viewportWidth > 2000) {
+          containerWidth = 2000;
+        } else {
+          containerWidth = viewportWidth;
+        }
+
+        containerHeight = container.offsetHeight;
+        console.log(containerHeight);
+
+        if (viewportWidth < 1280) {
+          grassMaterial.map = grassMap2;
+          grassMaterial.map.encoding = THREE.sRGBEncoding;
+          grassMaterial.map.needsUpdate = true;
+        } else {
+          grassMaterial.map = grassMap;
+          grassMaterial.map.encoding = THREE.sRGBEncoding;
+          grassMaterial.map.needsUpdate = true;
+        }
+
+        camera.aspect = containerWidth / containerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(containerWidth, containerHeight);
+
+        if (visualViewport.width < 1280) {
+          camera.position.set(0, 1.25, 70);
+        } else if (visualViewport.width < 1600) {
+          camera.position.set(0, 0, 62);
+        } else {
+          camera.position.set(0, 0, 62);
+        }
+
+        renderer.render(scene, camera);
+        ScrollTrigger.refresh();
       }
-
-      containerHeight = container.offsetHeight;
-      console.log(containerHeight);
-
-      if(viewportWidth < 1280) {
-        grassMaterial.map = grassMap2;
-        grassMaterial.map.encoding = THREE.sRGBEncoding;
-        grassMaterial.map.needsUpdate = true;
-      } else {
-        grassMaterial.map = grassMap;
-        grassMaterial.map.encoding = THREE.sRGBEncoding;
-        grassMaterial.map.needsUpdate = true;
-      }
-
-      camera.aspect = containerWidth / containerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(containerWidth, containerHeight);
-
-      if(visualViewport.width < 1280) {
-        camera.position.set(0, 1.25, 70);
-      } else if(visualViewport.width < 1600) {
-        camera.position.set(0, 0, 62);
-      } else {
-        camera.position.set(0, 0, 62);
-      }
-
-      renderer.render(scene, camera);
-      ScrollTrigger.refresh();
-      }
-
     };
 
     window.addEventListener("resize", onResize);
@@ -139,15 +140,15 @@ function setupScene() {
 
     // detect orientation change
     let portrait = window.matchMedia("(orientation: portrait)");
-    portrait.addEventListener("change", function(e) {
-        if(e.matches) {
-          onResize();
-          // Portrait mode
-        } else {
-          onResize();
-          // Landscape
-        }
-    })
+    portrait.addEventListener("change", function (e) {
+      if (e.matches) {
+        onResize();
+        // Portrait mode
+      } else {
+        onResize();
+        // Landscape
+      }
+    });
 
     Fancybox.bind("[data-fancybox]", {
       // custom options
@@ -160,8 +161,8 @@ function setupScene() {
       },
       Thumbs: {
         type: "classic",
-        showOnStart: false
-      }
+        showOnStart: false,
+      },
     });
 
     // load Golf Ball Model
@@ -200,32 +201,29 @@ function setupScene() {
     ScrollTrigger.refresh();
 
     golfball.position.set(0, -6, 1);
-    golfball.scale.set(.7,.7,.7);
+    golfball.scale.set(0.7, 0.7, 0.7);
 
     let mm = gsap.matchMedia();
 
-    // DESKTOP ANIMATION
+    // DESKTOP ANIMATION //////////////////////////////////////////////////////
     mm.add("(min-width: 801px)", () => {
-
-    // intro anim
-    gsap.to(golfball.rotation, {
-      x: -Math.PI * 2 * 4.5,
-      scrollTrigger: {
-        trigger: ".section-one",
-        start: "top top",
-        end: "+=2000",
-      },
-      onUpdate: () => {
-        renderer.render(scene, camera);
-        // console.log(window.pageYOffset)
-      }
-    });
+      // intro anim
+      gsap.to(golfball.rotation, {
+        x: -Math.PI * 2 * 4.5,
+        scrollTrigger: {
+          start: "0",
+          end: "+=2000",
+        },
+        onUpdate: () => {
+          renderer.render(scene, camera);
+          // console.log(window.pageYOffset)
+        },
+      });
 
       gsap.to(golfball.position, {
-        y: -.5,
+        y: -0.5,
         scrollTrigger: {
-          trigger: ".section-one",
-          start: "top top",
+          start: "0",
           end: "+=1000",
         },
       });
@@ -234,10 +232,9 @@ function setupScene() {
         y: 0,
         z: -4,
         scrollTrigger: {
-          trigger: ".section-one",
           start: "800",
           end: "+=700",
-          invalidateOnRefresh: true
+          invalidateOnRefresh: true,
         },
       });
 
@@ -246,7 +243,6 @@ function setupScene() {
         y: 0.5,
         z: 0.5,
         scrollTrigger: {
-          trigger: ".section-one",
           start: "800",
           end: "+=700",
         },
@@ -255,16 +251,14 @@ function setupScene() {
       gsap.to(".scroll-circle", {
         opacity: 0,
         scrollTrigger: {
-          trigger: ".section-one",
-          start: "top top",
-          end: "+=200"
-        }
+          start: "0",
+          end: "+=200",
+        },
       });
 
       gsap.to(".golf-intro", {
         opacity: 0,
         scrollTrigger: {
-          trigger: ".section-one",
           start: "1200",
           end: "+=300",
           onLeave: () => {
@@ -275,44 +269,44 @@ function setupScene() {
             const golfIntro = document.querySelector(".golf-intro");
             golfIntro.style.zIndex = "99";
           },
-        }
+        },
       });
 
       gsap.to("section", {
         opacity: 1,
         scrollTrigger: {
-          trigger: ".section-one",
           start: "1300",
           end: "+=200",
-        }
+        },
       });
 
       gsap.to(".section-one picture img", {
         scale: 1.4,
         scrollTrigger: {
-          trigger: ".section-one",
           start: "1300",
           end: "+=2000",
         },
-        // ease: "power3.out"
       });
 
       // Section 1
-      gsap.from(".rsvp-card", {
-        xPercent: 200,
-        scrollTrigger: {
-          trigger: ".section-one",
-          start: "2000",
-          end: "+=200",
-        }
-      });
 
       gsap.to(".section-one", {
         scrollTrigger: {
           trigger: ".section-one",
           start: "top top",
-          end: "+=3300",
+          end: "+=2800",
           pin: true,
+        },
+      });
+
+      const rsvpCard = document.querySelector(".section-one .rsvp-card");
+      gsap.set(rsvpCard, { xPercent: 200, opacity: 0 });
+      gsap.to(rsvpCard, {
+        xPercent: 0,
+        opacity: 1,
+        scrollTrigger: {
+          start: "2000",
+          end: "+=400",
         },
       });
 
@@ -322,40 +316,41 @@ function setupScene() {
         scrollTrigger: {
           trigger: ".section-two",
           start: "top top",
-          end: "+=850",
+          end: "+=400",
           pin: true,
         },
       });
 
-      const section2left = document.querySelector('.section-two .content-left');
-      gsap.set(section2left, {x: -200, opacity: 0});
+      const section2left = document.querySelector(".section-two .content-left");
+      gsap.set(section2left, { x: -200, opacity: 0 });
       gsap.to(section2left, {
         x: 0,
         opacity: 1,
         scrollTrigger: {
           trigger: ".section-two",
           start: "top 75%",
-          end: "+=400"
+          end: "+=400",
         },
       });
 
-        gsap.set(".gallery1 > a", {x: 200, opacity: 0});
-        ScrollTrigger.batch(".gallery1 > a", {
-          onEnter: (elements,triggers) => gsap.to(elements, {
-              x: 0,
-              opacity: 1,
-              stagger: 0.15,
-              ease: "Power3.inOut",
-                scrollTrigger: {
-                  trigger: elements[0],
-                  start: "top 75%",
-                  end: "+=400",
-                  scrub: 2,
-                  fastScrollEnd: true
-              },
-              overwrite: true
-            }),
-        });
+      gsap.set(".gallery1 > a", { x: 200, opacity: 0 });
+      ScrollTrigger.batch(".gallery1 > a", {
+        onEnter: (elements, triggers) =>
+          gsap.to(elements, {
+            x: 0,
+            opacity: 1,
+            stagger: 0.15,
+            ease: "Power3.inOut",
+            scrollTrigger: {
+              trigger: elements[0],
+              start: "top 75%",
+              end: "+=400",
+              scrub: 2,
+              fastScrollEnd: true,
+            },
+            overwrite: true,
+          }),
+      });
 
       // Section 3
 
@@ -368,15 +363,17 @@ function setupScene() {
         },
       });
 
-      const section3center = document.querySelector('.section-three .content-center');
-      gsap.set(section3center, {y: 400, opacity: 0});
+      const section3center = document.querySelector(
+        ".section-three .content-center"
+      );
+      gsap.set(section3center, { y: 200, opacity: 0 });
       gsap.to(section3center, {
         y: 0,
         opacity: 1,
         scrollTrigger: {
           trigger: ".section-three",
-          start: "top bottom",
-          end: "+=400"
+          start: "top 80%",
+          end: "+=400",
         },
       });
 
@@ -390,19 +387,19 @@ function setupScene() {
         },
       });
 
-      gsap.set(".section-four > picture .overlay", {opacity: 0});
+      gsap.set(".section-four > picture .overlay", { opacity: 0 });
       gsap.to(".section-four > picture .overlay", {
-        opacity: .35,
+        opacity: 0.35,
         scrollTrigger: {
           trigger: ".section-four .content-left",
           start: "top top",
           end: "+=400",
           scrub: 3,
-          fastScrollEnd: true
+          fastScrollEnd: true,
         },
-        overwrite: true
+        overwrite: true,
       });
-      gsap.set(".section-four .content-left", {xPercent: -100, opacity: 0});
+      gsap.set(".section-four .content-left", { xPercent: -100, opacity: 0 });
       gsap.to(".section-four .content-left", {
         xPercent: 0,
         opacity: 1,
@@ -411,13 +408,14 @@ function setupScene() {
           start: "top 25%",
           end: "+=400",
           scrub: 3,
-          fastScrollEnd: true
+          fastScrollEnd: true,
         },
-        overwrite: true
+        overwrite: true,
       });
-      gsap.set(".gallery2 > a", {x: 200, opacity: 0});
+      gsap.set(".gallery2 > a", { x: 200, opacity: 0 });
       ScrollTrigger.batch(".gallery2 > a", {
-        onEnter: (elements,triggers) => gsap.to(elements, {
+        onEnter: (elements, triggers) =>
+          gsap.to(elements, {
             x: 0,
             opacity: 1,
             stagger: 0.15,
@@ -426,9 +424,9 @@ function setupScene() {
               start: "top 20%",
               end: "+=400",
               scrub: 3,
-              fastScrollEnd: true
+              fastScrollEnd: true,
             },
-            overwrite: true
+            overwrite: true,
           }),
       });
 
@@ -438,31 +436,35 @@ function setupScene() {
         scrollTrigger: {
           trigger: ".section-five",
           start: "top top",
-          end: "+=850",
+          end: "+=400",
           pin: true,
         },
       });
 
-      const section5left = document.querySelector('.section-five .content-left');
-      gsap.set(section5left, {x: -200, opacity: 0});
+      const section5left = document.querySelector(
+        ".section-five .content-left"
+      );
+      gsap.set(section5left, { x: -200, opacity: 0 });
       gsap.to(section5left, {
         x: 0,
         opacity: 1,
         scrollTrigger: {
           trigger: ".section-five",
           start: "top 75%",
-          end: "+=400"
+          end: "+=400",
         },
       });
-      const section5right = document.querySelector('.section-five .content-right');
-      gsap.set(section5right, {x: 200, opacity: 0});
+      const section5right = document.querySelector(
+        ".section-five .content-right"
+      );
+      gsap.set(section5right, { x: 200, opacity: 0 });
       gsap.to(section5right, {
         x: 0,
         opacity: 1,
         scrollTrigger: {
           trigger: ".section-five",
           start: "top center",
-          end: "+=400"
+          end: "+=400",
         },
       });
 
@@ -472,269 +474,268 @@ function setupScene() {
         scrollTrigger: {
           trigger: ".section-six",
           start: "top top",
-          end: "+=850",
+          end: "+=400",
           pin: true,
         },
       });
 
-      const section6form = document.querySelector('.section-six .form-wrapper');
-      gsap.set(section6form, {y: 200, opacity: 0});
+      const section6form = document.querySelector(".section-six .form-wrapper");
+      gsap.set(section6form, { y: 200, opacity: 0 });
       gsap.to(section6form, {
         y: 0,
         opacity: 1,
         scrollTrigger: {
           trigger: ".section-six",
           start: "top 25%",
-          end: "+=400"
+          end: "+=200",
         },
       });
 
-          // when ScrollTrigger does a refresh(), it maps all the positioning data which 
-          // factors in transforms, but in this example we're initially setting all the ".box"
-          // elements to a "y" of 100 solely for the animation in which would throw off the normal 
-          // positioning, so we use a "refreshInit" listener to reset the y temporarily. When we 
-          // return a gsap.set() in the listener, it'll automatically revert it after the refresh()!
-          ScrollTrigger.addEventListener("refreshInit", () => {
-            gsap.set(".section-four .content-left", {xPercent: -100, opacity: 0});
-            gsap.set(".gallery1 > a", {x: 200, opacity: 0});
-            gsap.set(".gallery2 > a", {x: 200, opacity: 0});
-          });
+      // when ScrollTrigger does a refresh(), it maps all the positioning data which
+      // factors in transforms, but in this example we're initially setting all the ".box"
+      // elements to a "y" of 100 solely for the animation in which would throw off the normal
+      // positioning, so we use a "refreshInit" listener to reset the y temporarily. When we
+      // return a gsap.set() in the listener, it'll automatically revert it after the refresh()!
+      ScrollTrigger.addEventListener("refreshInit", () => {
+        gsap.set(".section-four .content-left", { xPercent: -100, opacity: 0 });
+        gsap.set(".gallery1 > a", { x: 200, opacity: 0 });
+        gsap.set(".gallery2 > a", { x: 200, opacity: 0 });
+      });
 
       return () => {
         // when changing from mobile to desktop, reset scrollbar to top
-        window.scrollTo(0,0);
-      }
+        window.scrollTo(0, 0);
+      };
+    });
 
-      })
+    // MOBILE ANIMATION //////////////////////////////////////////////////////
 
-      
-
-
-      // MOBILE ANIMATION
       mm.add("(max-width: 800px)", () => {
-
-        let tl2 = gsap.timeline();
-    
         // intro anim
-        tl2.to(golfball.rotation, {
-          x: -Math.PI * 2 * 4.25,
+        gsap.to(golfball.rotation, {
+          x: -Math.PI * 2 * 4.5,
           scrollTrigger: {
-            trigger: ".section-one",
-            start: "top top",
+            start: "0",
             end: "+=2000",
           },
           onUpdate: () => {
             renderer.render(scene, camera);
-          }
-        })
-          .to(golfball.position, {
-            y: -.5,
-            scrollTrigger: {
-              trigger: ".section-one",
-              start: "top top",
-              end: "+=1000",
+            // console.log(window.pageYOffset)
+          },
+        });
+  
+        gsap.to(golfball.position, {
+          y: -0.5,
+          scrollTrigger: {
+            start: "0",
+            end: "+=1000",
+          },
+        });
+  
+        gsap.to(camera.position, {
+          y: 0,
+          z: -4,
+          scrollTrigger: {
+            start: "800",
+            end: "+=700",
+            invalidateOnRefresh: true,
+          },
+        });
+  
+        gsap.to(golfball.scale, {
+          x: 0.5,
+          y: 0.5,
+          z: 0.5,
+          scrollTrigger: {
+            start: "800",
+            end: "+=700",
+          },
+        });
+  
+        gsap.to(".scroll-circle", {
+          opacity: 0,
+          scrollTrigger: {
+            start: "0",
+            end: "+=200",
+          },
+        });
+  
+        gsap.to(".golf-intro", {
+          opacity: 0,
+          scrollTrigger: {
+            start: "1200",
+            end: "+=300",
+            onLeave: () => {
+              const golfIntro = document.querySelector(".golf-intro");
+              golfIntro.style.zIndex = "0";
             },
-          })
-          .to(camera.position, {
-            y: 0,
-            z: -4,
-            scrollTrigger: {
-              trigger: ".section-one",
-              start: "800",
-              end: "+=700",
-              invalidateOnRefresh: true
+            onEnterBack: () => {
+              const golfIntro = document.querySelector(".golf-intro");
+              golfIntro.style.zIndex = "99";
             },
-          })
-          .to(golfball.scale, {
-            x: 0.5,
-            y: 0.5,
-            z: 0.5,
-            scrollTrigger: {
-              trigger: ".section-one",
-              start: "800",
-              end: "+=700",
-            },
-          })
-          .to(".scroll-circle", {
-            opacity: 0,
-            scrollTrigger: {
-              trigger: ".section-one",
-              start: "top top",
-              end: "+=200"
-            }
-          })
-          .to(".golf-intro", {
-            opacity: 0,
-            scrollTrigger: {
-              trigger: ".section-one",
-              start: "1200",
-              end: "+=300",
-              onLeave: () => {
-                const golfIntro = document.querySelector(".golf-intro");
-                golfIntro.style.zIndex = "0";
-              },
-              onEnterBack: () => {
-                const golfIntro = document.querySelector(".golf-intro");
-                golfIntro.style.zIndex = "99";
-              },
-            }
-          })
-          .to("section", {
-            opacity: 1,
-            scrollTrigger: {
-              trigger: ".section-one",
-              start: "1300",
-              end: "+=200",
-            }
-          })
-          .to(".section-one picture img", {
-            scale: 1.4,
-            scrollTrigger: {
-              trigger: ".section-one",
-              start: "1300",
-              end: "+=2000",
-            },
-            ease: "power3.out"
-          })
-          // Section 1
-          // timeline 6000
-          .from(".rsvp-card", {
-            xPercent: 200,
-            scrollTrigger: {
-              trigger: ".section-one",
-              start: "2400",
-              end: "+=200",
-            }
-          })
-          .to(".section-one", {
-            scrollTrigger: {
-              trigger: ".section-one",
-              start: "top top",
-              end: "+=4000",
-              pin: true,
-            },
-          })
-    
-    
-          // Section 2
-          // timeline 6000
-          // .to(".section-two", {
-          //   scrollTrigger: {
-          //     trigger: ".section-two",
-          //     start: "top top",
-          //     end: "+=1000",
-          //   }
-          // })
-    
-          // Section 3
-          // timeline 7000
-          // .to(".section-three", {
-          //   scrollTrigger: {
-          //     trigger: ".section-three",
-          //     start: "top top",
-          //     end: "+=1000",
-          //   }
-          // })
-          // .to(".section-three h2", {
-          //   x: -100,
-          //   scrollTrigger: {
-          //     trigger: ".section-three",
-          //     start: "top top",
-          //     end: "+=1000",
-          //   },
-          // })
-    
-          // Section 4
-          // timeline 8000
-          // .to(".section-four", {
-          //   scrollTrigger: {
-          //     trigger: ".section-four",
-          //     start: "top top",
-          //     end: "+=1000",
-          //   }
-          // })
-          // .to(".section-four h2", {
-          //   x: 100,
-          //   scrollTrigger: {
-          //     trigger: ".section-four",
-          //     start: "top top",
-          //     end: "+=1000",
-          //   },
-          // })
-    
-          // Section 5
-          // timeline 9000
+          },
+        });
+  
+        gsap.to("section", {
+          opacity: 1,
+          scrollTrigger: {
+            start: "1300",
+            end: "+=200",
+          },
+        });
+  
+        gsap.to(".section-one picture img", {
+          scale: 1.4,
+          scrollTrigger: {
+            start: "1300",
+            end: "+=2000",
+          },
+        });
+  
+        // Section 1
+  
+        gsap.to(".section-one", {
+          scrollTrigger: {
+            trigger: ".section-one",
+            start: "top top",
+            end: "+=2800",
+            pin: true,
+          },
+        });
+  
+        const rsvpCard = document.querySelector(".section-one .rsvp-card");
+        gsap.set(rsvpCard, { xPercent: 200, opacity: 0 });
+        gsap.to(rsvpCard, {
+          xPercent: 0,
+          opacity: 1,
+          scrollTrigger: {
+            start: "2000",
+            end: "+=400",
+          },
+        });
+  
+        // Section 2
+  
+        // Section 3
+  
+        const section3center = document.querySelector(
+          ".section-three .content-center"
+        );
+        gsap.set(section3center, { y: 100, opacity: 0 });
+        gsap.to(section3center, {
+          y: 0,
+          opacity: 1,
+          scrollTrigger: {
+            trigger: ".section-three",
+            start: "top 80%",
+            end: "+=200"
+          },
+        });
+  
+        // Section 4
 
-          gsap.set(".gallery1 > a", {x: 0, opacity: 1});
-
-          ScrollTrigger.addEventListener("refreshInit", () => {
+        const section4left = document.querySelector(
+          ".section-four .content-left"
+        );
+        gsap.set(section4left, { y: 100, opacity: 0 });
+        gsap.to(section4left, {
+          y: 0,
+          opacity: 1,
+          scrollTrigger: {
+            trigger: section4left,
+            start: "top 80%",
+            end: "+=200"
+          },
+        });
+  
+        // Section 5
+  
+        gsap.to(".section-five", {
+          scrollTrigger: {
+            trigger: ".section-five",
+            start: "top top",
+            end: "+=400",
+          },
+        });
+  
+        const section5left = document.querySelector(
+          ".section-five .content-left"
+        );
+        gsap.set(section5left, { x: -200, opacity: 0 });
+        gsap.to(section5left, {
+          x: 0,
+          opacity: 1,
+          scrollTrigger: {
+            trigger: ".section-five",
+            start: "top 75%",
+            end: "+=400",
+          },
+        });
+        const section5right = document.querySelector(
+          ".section-five .content-right"
+        );
+        gsap.set(section5right, { x: 200, opacity: 0 });
+        gsap.to(section5right, {
+          x: 0,
+          opacity: 1,
+          scrollTrigger: {
+            trigger: ".section-five",
+            start: "top center",
+            end: "+=400",
+          },
+        });
+  
+        // Section 6
+  
+        // when ScrollTrigger does a refresh(), it maps all the positioning data which
+        // factors in transforms, but in this example we're initially setting all the ".box"
+        // elements to a "y" of 100 solely for the animation in which would throw off the normal
+        // positioning, so we use a "refreshInit" listener to reset the y temporarily. When we
+        // return a gsap.set() in the listener, it'll automatically revert it after the refresh()!
+        ScrollTrigger.addEventListener("refreshInit", () => {
             gsap.set(".section-four .content-left", {xPercent: 0, opacity: 1});
             gsap.set(".gallery1 > a", {x: 0, opacity: 1});
             gsap.set(".gallery2 > a", {x: 0, opacity: 1});
-          });
-    
-          return () => {
-            // when changing from mobile to desktop, reset scrollbar to top
-            window.scrollTo(0,0);
-          }
-    
-          });
+        });
+  
+        return () => {
+          // when changing from mobile to desktop, reset scrollbar to top
+          window.scrollTo(0, 0);
+        };
+      });
 
-          // Ballmarker Anim
-          const ballmarker = document.querySelector('.ballmarker');
-          const navlinks = document.querySelector('.nav-links > div');
-          ballmarker.addEventListener('click', () => {
-            if(ballmarker.classList.contains('active')) {
-              gsap.to(navlinks, {
-                duration: .5,
-                xPercent: -100,
-                opacity: 0
-              });
-            } else {
-              gsap.to(navlinks, {
-                duration: .5,
-                xPercent: 0,
-                opacity: 1
-              });
-            }    
-            ballmarker.classList.toggle('active');  
-          });
+    // Ballmarker Anim
+    const ballmarker = document.querySelector(".ballmarker");
+    const navlinks = document.querySelector(".nav-links > div");
+    ballmarker.addEventListener("click", () => {
+      if (ballmarker.classList.contains("active")) {
+        gsap.to(navlinks, {
+          duration: 0.5,
+          xPercent: -100,
+          opacity: 0,
+        });
+      } else {
+        gsap.to(navlinks, {
+          duration: 0.5,
+          xPercent: 0,
+          opacity: 1,
+        });
+      }
+      ballmarker.classList.toggle("active");
+    });
 
-          // RSVP button links
-          const gothere = document.querySelectorAll('.alink');
-          gothere.forEach(link => {
-            const alink = link.getAttribute('data-link');
-            link.addEventListener('click', (e) => {
-              e.preventDefault();
-              console.log('success');
-                gsap.to(window, {
-                  duration: 0,
-                  scrollTo: {
-                    y: alink,
-                    offsetY: -400
-                  }
-                })
-              })
-          });
+    // Button links
 
-          // Scroll Arrow Anim
-          const scrollCircle = document.querySelector('.scroll-circle');
-          const tlScroll = gsap.timeline({
-            repeat: -1,
-            yoyo: true
-          });
-          tlScroll.add('start')
-          .to(scrollCircle, {
-            duration: .5,
-            y: -10,
-          })
-
-
-
-          
-
-
-
+    // Scroll Arrow Anim
+    const scrollCircle = document.querySelector(".scroll-circle");
+    const tlScroll = gsap.timeline({
+      repeat: -1,
+      yoyo: true,
+    });
+    tlScroll.add("start").to(scrollCircle, {
+      duration: 0.5,
+      y: -10,
+    });
   }
 }
 
