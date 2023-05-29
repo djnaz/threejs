@@ -72,8 +72,8 @@ function setupScene() {
 
     // add ground
     const plane = new THREE.PlaneGeometry(28, 13.78125);
-    const grassMap = new THREE.TextureLoader().load("./rsm-grass-texture-1.webp");
-    const grassMap2 = new THREE.TextureLoader().load("./rsm-grass-texture-2.webp");
+    const grassMap = new THREE.TextureLoader().load("/images/threejs/rsm-grass-texture-1.webp");
+    const grassMap2 = new THREE.TextureLoader().load("/images/threejs/rsm-grass-texture-2.webp");
     const grassMaterial = new THREE.MeshStandardMaterial({ map: grassMap });
     grassMaterial.map.encoding = THREE.sRGBEncoding;
     let ground = new THREE.Mesh(plane, grassMaterial);
@@ -81,19 +81,30 @@ function setupScene() {
     ground.position.set(0, 0, 0);
     scene.add(ground);
 
+    let viewportWidth;
+    let viewportHeight;
+    let resizeWidth;
+    let containerWidth;
+    let containerHeight;
     // on Resize
     const onResize = () => {
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-      let viewportWidth = window.innerWidth;
-      let viewportHeight = window.innerHeight;
-      let containerWidth;
+      resizeWidth = window.innerWidth;
+      viewportHeight = window.innerHeight;
+
+      if(resizeWidth !== viewportWidth) {
+        viewportWidth = resizeWidth;
+
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
       if(viewportWidth > 2000) {
         containerWidth = 2000;
       } else {
         containerWidth = viewportWidth;
       }
+
+      containerHeight = container.offsetHeight;
+      console.log(containerHeight);
 
       if(viewportWidth < 1280) {
         grassMaterial.map = grassMap2;
@@ -105,9 +116,9 @@ function setupScene() {
         grassMaterial.map.needsUpdate = true;
       }
 
-      camera.aspect = containerWidth / viewportHeight;
+      camera.aspect = containerWidth / containerHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(containerWidth, viewportHeight);
+      renderer.setSize(containerWidth, containerHeight);
 
       if(visualViewport.width < 1280) {
         camera.position.set(0, 1, 70);
@@ -119,10 +130,24 @@ function setupScene() {
 
       renderer.render(scene, camera);
       ScrollTrigger.refresh();
+      }
+
     };
 
     window.addEventListener("resize", onResize);
     onResize();
+
+    // detect orientation change
+    let portrait = window.matchMedia("(orientation: portrait)");
+    portrait.addEventListener("change", function(e) {
+        if(e.matches) {
+          onResize();
+          // Portrait mode
+        } else {
+          onResize();
+          // Landscape
+        }
+    })
 
     Fancybox.bind("[data-fancybox]", {
       // custom options
@@ -142,7 +167,7 @@ function setupScene() {
     // load Golf Ball Model
     const loadGolfBall = new GLTFLoader();
 
-    loadGolfBall.load("./golfball4.glb", (gltfScene) => {
+    loadGolfBall.load("/images/threejs/golfball4.glb", (gltfScene) => {
       golfball = gltfScene.scene;
       console.log(gltfScene);
       golfball.traverse((child) => {
@@ -616,7 +641,21 @@ function setupScene() {
                   scrollTo: alink
                 })
               })
+          });
+
+          // Scroll Arrow Anim
+          const scrollCircle = document.querySelector('.scroll-circle');
+          const tlScroll = gsap.timeline({
+            repeat: -1,
+            yoyo: true
+          });
+          tlScroll.add('start')
+          .to(scrollCircle, {
+            duration: .5,
+            y: -10,
           })
+
+
 
           
 
