@@ -199,8 +199,7 @@ function setupScene() {
     });
     ScrollTrigger.refresh();
 
-    // scene.position.set(0, 0, 1);
-    golfball.position.set(0, -9, 1);
+    golfball.position.set(0, -6, 1);
     golfball.scale.set(.7,.7,.7);
 
     let mm = gsap.matchMedia();
@@ -208,11 +207,9 @@ function setupScene() {
     // DESKTOP ANIMATION
     mm.add("(min-width: 801px)", () => {
 
-    let tl = gsap.timeline();
-
     // intro anim
-    tl.to(golfball.rotation, {
-      x: -Math.PI * 2 * 5.5,
+    gsap.to(golfball.rotation, {
+      x: -Math.PI * 2 * 4.5,
       scrollTrigger: {
         trigger: ".section-one",
         start: "top top",
@@ -222,16 +219,18 @@ function setupScene() {
         renderer.render(scene, camera);
         // console.log(window.pageYOffset)
       }
-    })
-      .to(golfball.position, {
+    });
+
+      gsap.to(golfball.position, {
         y: -.5,
         scrollTrigger: {
           trigger: ".section-one",
           start: "top top",
           end: "+=1000",
         },
-      })
-      .to(camera.position, {
+      });
+
+      gsap.to(camera.position, {
         y: 0,
         z: -4,
         scrollTrigger: {
@@ -240,8 +239,9 @@ function setupScene() {
           end: "+=700",
           invalidateOnRefresh: true
         },
-      })
-      .to(golfball.scale, {
+      });
+
+      gsap.to(golfball.scale, {
         x: 0.5,
         y: 0.5,
         z: 0.5,
@@ -250,16 +250,18 @@ function setupScene() {
           start: "800",
           end: "+=700",
         },
-      })
-      .to(".scroll-circle", {
+      });
+
+      gsap.to(".scroll-circle", {
         opacity: 0,
         scrollTrigger: {
           trigger: ".section-one",
           start: "top top",
           end: "+=200"
         }
-      })
-      .to(".golf-intro", {
+      });
+
+      gsap.to(".golf-intro", {
         opacity: 0,
         scrollTrigger: {
           trigger: ".section-one",
@@ -274,150 +276,145 @@ function setupScene() {
             golfIntro.style.zIndex = "99";
           },
         }
-      })
-      .to("section", {
+      });
+
+      gsap.to("section", {
         opacity: 1,
         scrollTrigger: {
           trigger: ".section-one",
           start: "1300",
           end: "+=200",
         }
-      })
-      .to(".section-one picture img", {
+      });
+
+      gsap.to(".section-one picture img", {
         scale: 1.4,
         scrollTrigger: {
           trigger: ".section-one",
           start: "1300",
           end: "+=2000",
         },
-        ease: "power3.out"
-      })
+        // ease: "power3.out"
+      });
+
       // Section 1
-      // timeline 6000
-      .from(".rsvp-card", {
+      gsap.from(".rsvp-card", {
         xPercent: 200,
         scrollTrigger: {
           trigger: ".section-one",
-          start: "2400",
+          start: "2000",
           end: "+=200",
         }
-      })
-      .to(".section-one", {
+      });
+
+      gsap.to(".section-one", {
         scrollTrigger: {
           trigger: ".section-one",
           start: "top top",
-          end: "+=4000",
+          end: "+=3300",
           pin: true,
         },
-      })
-
-      
+      });
 
       // Section 2
-      // timeline 7000
-      .to(".section-two", {
+
+      gsap.to(".section-two", {
         scrollTrigger: {
           trigger: ".section-two",
           start: "top top",
-          end: "+=1000",
-          // pin: true,
-        }
-      })
+          end: "+=850",
+          pin: true,
+        },
+      });
+
+      const section2left = document.querySelector('.section-two .content-left');
+      gsap.set(section2left, {x: -200, opacity: 0});
+      gsap.to(section2left, {
+        x: 0,
+        opacity: 1,
+        scrollTrigger: {
+          trigger: ".section-two",
+          start: "top bottom",
+          end: "+=400"
+        },
+      });
+
+        gsap.set(".gallery1 > a", {x: 200, opacity: 0});
+        ScrollTrigger.batch(".gallery1 > a", {
+          onEnter: (elements,triggers) => gsap.to(elements, {
+              x: 0,
+              opacity: 1,
+              stagger: 0.15,
+              ease: "Power3.inOut",
+                scrollTrigger: {
+                  trigger: elements[0],
+                  start: "top 90%",
+                  end: "+=400",
+                  scrub: 2,
+                  fastScrollEnd: true
+              },
+              overwrite: true
+            }),
+        });
 
       // Section 3
-      // timeline 8000
-      .to(".section-three", {
+
+      gsap.to(".section-three", {
         scrollTrigger: {
           trigger: ".section-three",
           start: "top top",
-          end: "+=1000",
-          // pin: true,
-        }
-      })
+          end: "+=850",
+          pin: true,
+        },
+      });
+
+      const section3center = document.querySelector('.section-three .content-center');
+      gsap.set(section3center, {y: 400, opacity: 0});
+      gsap.to(section3center, {
+        y: 0,
+        opacity: 1,
+        scrollTrigger: {
+          trigger: ".section-three",
+          start: "top bottom",
+          end: "+=400"
+        },
+      });
 
       // Section 4
-      // timeline 9000
-      .to(".section-four", {
+      gsap.set(".section-four .content-left", {xPercent: -100, opacity: 0});
+      gsap.to(".section-four .content-left", {
+        xPercent: 0,
+        opacity: 1,
         scrollTrigger: {
-          trigger: ".section-four",
-          start: "top top",
-          end: "+=2000",
-          // pin: true,
-        }
-      })
-
-      // Section 5
-      // timeline 10000
-      .to(".section-five", {
-        scrollTrigger: {
-          trigger: ".section-five",
-          start: "top top",
-          end: "+=1000",
-          // pin: true,
-        }
-      })
-
-      // Section 6
-      // timeline 11000
-      .to(".section-six", {
-        scrollTrigger: {
-          trigger: ".section-six",
-          start: "top top",
-          end: "+=1000",
-          // pin: true,
-        }
-      })
-
-      // Additional Animations
-
-      gsap.set(".gallery1 > a", {x: 100, opacity: 0});
-          ScrollTrigger.batch(".gallery1 > a", {
-            onEnter: (elements,triggers) => gsap.to(elements, {
-                x: 0,
-                opacity: 1,
-                stagger: {
-                  each: 0.15,
-                },
-                ease: "Power3.inOut",
-                scrollTrigger: {
-                  trigger: elements[0],
-                  start: "top 80%",
-                  end: "top 70%",
-                  scrub: 4,
-                  fastScrollEnd: true
-                },
-                overwrite: true
-              }),
-          });
-          gsap.set(".section-four .content-left", {xPercent: -100, opacity: 0});
-          gsap.to(".section-four .content-left", {
-            xPercent: 0,
+          trigger: ".section-four .content-left",
+          start: "top 50%",
+          end: "top 40%",
+          scrub: 3,
+          fastScrollEnd: true
+        },
+        overwrite: true
+      });
+      gsap.set(".gallery2 > a", {x: 200, opacity: 0});
+      ScrollTrigger.batch(".gallery2 > a", {
+        onEnter: (elements,triggers) => gsap.to(elements, {
+            x: 0,
             opacity: 1,
+            stagger: 0.15,
             scrollTrigger: {
-              trigger: ".section-four .content-left",
-              start: "top 50%",
-              end: "top 40%",
-              scrub: 4,
+              trigger: elements[0],
+              start: "top 80%",
+              end: "top 70%",
+              scrub: 3,
               fastScrollEnd: true
             },
             overwrite: true
-          });
-          gsap.set(".gallery2 > a", {x: 100, opacity: 0});
-          ScrollTrigger.batch(".gallery2 > a", {
-            onEnter: (elements,triggers) => gsap.to(elements, {
-                x: 0,
-                opacity: 1,
-                stagger: 0.15,
-                scrollTrigger: {
-                  trigger: elements[0],
-                  start: "top 80%",
-                  end: "top 70%",
-                  scrub: 4,
-                  fastScrollEnd: true
-                },
-                overwrite: true
-              }),
-          });
+          }),
+      });
+
+      // Section 5
+
+      // Section 6
+
           // when ScrollTrigger does a refresh(), it maps all the positioning data which 
           // factors in transforms, but in this example we're initially setting all the ".box"
           // elements to a "y" of 100 solely for the animation in which would throw off the normal 
