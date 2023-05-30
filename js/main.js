@@ -109,7 +109,7 @@ function setupScene() {
         containerHeight = container.offsetHeight;
         console.log(containerHeight);
 
-        if (viewportWidth < 1280) {
+        if (viewportWidth < 1181) {
           grassMaterial.map = grassMap2;
           grassMaterial.map.encoding = THREE.sRGBEncoding;
           grassMaterial.map.needsUpdate = true;
@@ -123,12 +123,12 @@ function setupScene() {
         camera.updateProjectionMatrix();
         renderer.setSize(containerWidth, containerHeight);
 
-        if (visualViewport.width < 1280) {
+        if (visualViewport.width < 1181) {
           camera.position.set(0, 1.25, 70);
-        } else if (visualViewport.width < 1600) {
-          camera.position.set(0, 0, 62);
+        } else if (visualViewport.width < 1601) {
+          camera.position.set(0, 0, 70);
         } else {
-          camera.position.set(0, 0, 62);
+          camera.position.set(0, 0, 70);
         }
 
         renderer.render(scene, camera);
