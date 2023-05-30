@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { Fancybox } from "@fancyapps/ui";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
+import { forEach } from "lodash-es";
 
 // prevents the last scroll location on the page to be restored
 history.scrollRestoration = "manual";
@@ -633,20 +634,6 @@ function setupScene() {
         });
   
         // Section 4
-
-        const section4left = document.querySelector(
-          ".section-four .content-left"
-        );
-        gsap.set(section4left, { y: 100, opacity: 0 });
-        gsap.to(section4left, {
-          y: 0,
-          opacity: 1,
-          scrollTrigger: {
-            trigger: section4left,
-            start: "top 80%",
-            end: "+=200"
-          },
-        });
   
         // Section 5
   
@@ -725,6 +712,44 @@ function setupScene() {
     });
 
     // Button links
+    const rsvpBtns = document.querySelectorAll('.rsvp-btn');
+    rsvpBtns.forEach((rsvpbtn) => {
+      rsvpbtn.addEventListener('click', function(e) {
+        gsap.to(window, {
+          duration: 0,
+          scrollTo: {
+            y: "#section-six",
+            offsetY: -400
+          }
+        })
+      })
+    });
+    const alinks = document.querySelectorAll('.alink.o400');
+    alinks.forEach((alink) => {
+      const dataVal = alink.getAttribute('data-linkval');
+      alink.addEventListener('click', function(e) {
+        gsap.to(window, {
+          duration: 0,
+          scrollTo: {
+            y: dataVal,
+            offsetY: -400
+          }
+        })
+      })
+    });
+    const alinks2 = document.querySelectorAll('.alink.o1000');
+    alinks2.forEach((alink) => {
+      const dataVal = alink.getAttribute('data-linkval');
+      alink.addEventListener('click', function(e) {
+        gsap.to(window, {
+          duration: 0,
+          scrollTo: {
+            y: dataVal,
+            offsetY: -400
+          }
+        })
+      })
+    });
 
     // Scroll Arrow Anim
     const scrollCircle = document.querySelector(".scroll-circle");
