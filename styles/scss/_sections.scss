@@ -1,7 +1,7 @@
 section {
     background-color: #fff;
 	width: 100%;
-    height: 100svh;;
+    height: 100dvh;;
     min-height: 800px;
 	position: relative;
     display: flex;
@@ -29,7 +29,7 @@ section {
 
     &.section-one {
         @media screen and (max-width: 800px) {
-            min-height: 100svh;;
+            min-height: 100dvh;;
         }
         picture {
             position: absolute;
