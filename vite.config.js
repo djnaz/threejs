@@ -6,8 +6,9 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        wave01: resolve(__dirname, 'wave01a/index.html'),
-        // wave02: resolve(__dirname, 'wave01b/index.html'),
+        wave0: resolve(__dirname, 'Wave0/index.html'),
+        wave0J: resolve(__dirname, 'Wave0J/index.html'),
+        wave0S: resolve(__dirname, 'Wave0S/index.html'),
       },
     },
   },
