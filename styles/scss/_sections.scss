@@ -287,17 +287,46 @@ section {
                     @media screen and (max-width: 800px) {
                         width: 100%;
                     }
-                    div {
+                    a {
+                        display: block;
                         width: 100%;
                         padding-bottom: 56.25%;
                         height: 0;
                         position: relative;
-                        iframe {
+                        div {
                             position: absolute;
                             inset: 0 0 0 0;
-                            width: 100%;
-                            height: 100%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            overflow: hidden;
+                            .poster {
+                                position: absolute;
+                                object-fit: cover;
+                                width: 100%;
+                                height: 100%;
+                                transform: scale(1) translate3d(0,0,0);
+						        transition: transform 50s cubic-bezier(0,.1,.05,.99);
+                            }
+                            .play-btn {
+                                position: relative;
+                                width: 25%;
+                                max-width: 150px;
+                                height: auto; 
+                            }                         
                         }
+                        &:hover {
+                            .poster {
+                                transform: scale(1.25) translate3d(0,-5%,0);
+						        transition: transform 50s cubic-bezier(0,.1,.05,.99);
+                            }
+                        }
+                        // iframe {
+                        //     position: absolute;
+                        //     inset: 0 0 0 0;
+                        //     width: 100%;
+                        //     height: 100%;
+                        // }
                     }
                 }
             }
@@ -526,6 +555,7 @@ section {
     &.section-six {
         background-color: #c6c6c6;
         height: auto;
+        max-height: none;
         padding: 5vw 0;
         picture {
             position: absolute;

@@ -160,7 +160,7 @@ function setupScene() {
         renderer.setSize(containerWidth, containerHeight);
 
         if (visualViewport.width < 1181) {
-          camera.position.set(0, 0.8, 69);
+          camera.position.set(0, 1.3, 71);
         } else if (visualViewport.width < 1601) {
           camera.position.set(0, 0, 69);
         } else {
@@ -168,8 +168,8 @@ function setupScene() {
         }
 
         renderer.render(scene, camera);
-        pageOverlay();
         ScrollTrigger.refresh();
+        pageOverlay();
       }
     };
 
@@ -627,24 +627,15 @@ function setupScene() {
 
       // Section 6
 
-      gsap.to(".section-six", {
-        scrollTrigger: {
-          trigger: ".section-six",
-          start: "top top",
-          end: "+=400",
-          pin: true,
-        },
-      });
-
       const section6form = document.querySelector(".section-six .form-wrapper");
-      gsap.set(section6form, { y: 200, opacity: 0 });
+      gsap.set(section6form, { y: 400, opacity: 0 });
       gsap.to(section6form, {
         y: 0,
         opacity: 1,
         scrollTrigger: {
           trigger: ".section-six",
-          start: "top 25%",
-          end: "+=200",
+          start: "top 15%",
+          end: "top top",
         },
       });
 
@@ -657,20 +648,6 @@ function setupScene() {
         gsap.set(".section-four .content-left", { xPercent: -100, opacity: 0 });
         gsap.set(".gallery1 > a", { x: 200, opacity: 0 });
         gsap.set(".gallery2 > a", { x: 200, opacity: 0 });
-      });
-
-      // RSVP Links
-      const rsvpBtns = document.querySelectorAll(".rsvp-btn");
-      rsvpBtns.forEach((rsvpbtn) => {
-        rsvpbtn.addEventListener("click", function (e) {
-          gsap.to(window, {
-            duration: 0,
-            scrollTo: {
-              y: "#section-six",
-              offsetY: -400,
-            },
-          });
-        });
       });
 
       return () => {
@@ -845,20 +822,6 @@ function setupScene() {
         gsap.set(".gallery2 > a", { x: 0, opacity: 1 });
       });
 
-      // RSVP Links
-      const rsvpBtns = document.querySelectorAll(".rsvp-btn");
-      rsvpBtns.forEach((rsvpbtn) => {
-        rsvpbtn.addEventListener("click", function (e) {
-          gsap.to(window, {
-            duration: 0,
-            scrollTo: {
-              y: "#section-six",
-              offsetY: 0,
-            },
-          });
-        });
-      });
-
       return () => {
         // when changing from mobile to desktop, reset scrollbar to top
         window.scrollTo(0, 0);
@@ -912,6 +875,20 @@ function setupScene() {
           },
           onComplete: () => {
             gsap.set(".gallery2 > a", { x: 200, opacity: 0 });
+          },
+        });
+      });
+    });
+    // RSVP Links
+    const rsvpBtns = document.querySelectorAll(".rsvp-btn");
+    rsvpBtns.forEach((rsvpbtn) => {
+      rsvpbtn.removeEventListener("click", function (e) {});
+      rsvpbtn.addEventListener("click", function (e) {
+        gsap.to(window, {
+          duration: 0,
+          scrollTo: {
+            y: "#section-six",
+            offsetY: 0,
           },
         });
       });

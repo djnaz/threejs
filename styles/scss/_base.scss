@@ -127,7 +127,7 @@ p {
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        @media screen and (max-width: 1180px) {
+        @media screen and (max-width: 1024px) {
             display: none;
         }
         img {
@@ -190,6 +190,6 @@ p {
     }
     .section-one & {
         opacity: 0;
-        bottom: 2rem;
+        bottom: 3rem;
     }
 }
