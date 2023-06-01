@@ -487,7 +487,8 @@ section {
                     }
                     &.note {
                         font-size: .85rem;
-                        font-family: 'Prelo-medium';
+                        font-family: 'Prelo-book';
+                        font-style: italic;
                         line-height: 1.4;
                     }
                     @media screen and (max-width: 800px) {
@@ -532,7 +533,8 @@ section {
                     margin-bottom: 0;
                     &.note {
                         font-size: .85rem;
-                        font-family: 'Prelo-medium';
+                        font-family: 'Prelo-book';
+                        font-style: italic;
                         line-height: 1.4;
                         margin: 3rem 0 1rem;
                     }
@@ -613,7 +615,7 @@ section {
                 }
                 p {
                     font-size: clamp(.75rem, .9vw, 1rem) !important;
-                    color: #464545;
+                    color: $label-gray;
                 }
             }
         }

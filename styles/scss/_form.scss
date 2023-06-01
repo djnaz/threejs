@@ -36,7 +36,11 @@
         text-transform: uppercase;
         font-size: clamp(.75rem, .9vw, 1rem) !important;
         font-family: 'Prelo-medium' !important;
-        color: $dark-gray !important;
+        font-weight: normal;
+        color: $label-gray !important;
+        .mktoFieldDescriptor & {
+            color: $light-gray;
+        }
     }
     input, textarea {
         width: 100% !important;
@@ -144,6 +148,9 @@
         // Company
         &:nth-of-type(4) {
             width: 100% !important;
+            label {
+                font-weight: normal !important;
+            }
         }
         // Email
         &:nth-of-type(5) {
@@ -208,6 +215,7 @@
         &:nth-of-type(15) {
             width: 100% !important;
             label {
+                color: $light-gray !important;
                 font-family: 'Prelo-light' !important;
                 text-transform: none;
                 line-height: 2;
@@ -223,6 +231,7 @@
         &:nth-of-type(16) {
             width: 100% !important;
             label {
+                color: $light-gray !important;
                 font-family: 'Prelo-light' !important;
                 text-transform: none;
                 line-height: 2;

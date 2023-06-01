@@ -30,7 +30,8 @@ body {
 
 h1,h2,h3,h4,h5,h6 {
     line-height: 1;
-    margin-bottom: 2rem
+    margin-bottom: 2rem;
+    font-weight: normal;
 }
 
 h2 {
@@ -38,7 +39,7 @@ h2 {
     font-family: "calluna";
     font-weight: 400; // 400,600,700
     font-size: clamp(1.5rem, 2.8vw, 3rem);
-    letter-spacing: clamp(.05rem, .35vw, 0.38rem);
+    letter-spacing: clamp(.02rem, .18vw, 0.2rem);
     text-transform: uppercase;
 }
 h3 {
@@ -70,13 +71,14 @@ p {
     background-color: $rsm-blue;
     border: 1px solid $rsm-blue;
     color: white;
-    font-family: 'Prelo-semibold', Verdana;
+    font-family: 'Prelo-bold', Verdana;
     font-size: .8em;
-    letter-spacing: .2rem;
+    letter-spacing: .15rem;
     padding: .75rem 1rem;
     text-transform: uppercase;
     text-decoration: none;
     transition: background-color .2s, color .2s;
+    cursor: pointer;
     &:hover {
         background-color: white;
         color: $rsm-blue;
@@ -123,11 +125,13 @@ p {
         position: absolute;
         top: 2rem;
         left: 2rem;
+        right: 2rem;
         z-index: 5;
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        @media screen and (max-width: 1024px) {
+        text-align: left;
+        @media screen and (max-width: 640px) {
             display: none;
         }
         img {
@@ -156,6 +160,9 @@ p {
                     &:last-child {
                         border-right: none;
                     }
+                }
+                span {
+                    white-space: nowrap;
                 }
             }
         }
