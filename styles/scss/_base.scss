@@ -137,6 +137,7 @@ p {
         img {
             width: 100px;
             height: auto;
+            cursor: pointer;
         }
         .nav-links {
             display: flex;
@@ -171,14 +172,15 @@ p {
 
 .scroll-circle {
     position: absolute;
-    bottom: 3rem;
+    bottom: 5vh;
     width: 42px;
     height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
+    z-index: 1;
     @media screen and (max-width: 1180px) {
-        bottom: 6rem;
+        // bottom: 6rem;
     }
     p {
         margin-bottom: .5rem;
@@ -197,6 +199,6 @@ p {
     }
     .section-one & {
         opacity: 0;
-        bottom: 3rem;
+        bottom: 5vh;
     }
 }
